@@ -1,0 +1,24 @@
+using System.Reflection;
+using BuildingBlocks.Behaviors;
+using EvoFast.Application.Dtos;
+using EvoFast.Domain.Models;
+using FluentValidation;
+using Mapster;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace EvoFast.Application;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+        });
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        return services;
+    }
+}
