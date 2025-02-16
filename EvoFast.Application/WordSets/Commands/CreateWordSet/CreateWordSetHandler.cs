@@ -7,9 +7,9 @@ namespace EvoFast.Application.WordSets.Commands.CreateWordSet;
 
 public class CreateWordSetHandler 
     (IApplicationDbContext dbContext)
-    : ICommandHandler<CreateWordSetCommand, WordSetCreateResult>
+    : ICommandHandler<CreateWordSetCommand, CreateWordSetResult>
 {
-    public async Task<WordSetCreateResult> Handle(CreateWordSetCommand command, CancellationToken cancellationToken)
+    public async Task<CreateWordSetResult> Handle(CreateWordSetCommand command, CancellationToken cancellationToken)
     {
         var wordSet = WordSet.Create(
             WordSetId.Of(Guid.NewGuid()), 
@@ -17,6 +17,6 @@ public class CreateWordSetHandler
             command.WordSet.Description);
         dbContext.WordSets.Add(wordSet);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return new WordSetCreateResult(wordSet.Id.Value);
+        return new CreateWordSetResult(wordSet.Id.Value);
     }
 }

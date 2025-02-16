@@ -1,6 +1,7 @@
 using System.Reflection;
 using BuildingBlocks.Behaviors;
 using EvoFast.Application.Dtos;
+using EvoFast.Application.Mapper;
 using EvoFast.Domain.Models;
 using FluentValidation;
 using Mapster;
@@ -19,6 +20,8 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        MapsterConfig.Configure();
         return services;
     }
 }

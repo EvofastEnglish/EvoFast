@@ -1,3 +1,3 @@
 namespace EvoFast.Application.Dtos;
 
-public record WordSetDto(string? WordSetName, string Description);
+public record WordSetDto(Guid Id, string? WordSetName, string Description);

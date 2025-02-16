@@ -2,8 +2,11 @@ using EvoFast.Application.Dtos;
 
 namespace EvoFast.Application.WordSets.Commands.CreateWordSet;
 
-public record CreateWordSetCommand(WordSetDto WordSet) : ICommand<WordSetCreateResult>;
-public record WordSetCreateResult(Guid Id);
+public record CreateWordSetCommand(CreateWordSetRequest WordSet) : ICommand<CreateWordSetResult>;
+
+public record CreateWordSetRequest(string WordSetName, string Description);
+
+public record CreateWordSetResult(Guid Id);
 
 public class CreateWordSetCommandValidator : AbstractValidator<CreateWordSetCommand>
 {
