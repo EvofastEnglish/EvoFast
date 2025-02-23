@@ -2,6 +2,7 @@ using BuildingBlocks.Exceptions.Handler;
 using FluentValidation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EvoFast.API;
 
@@ -11,7 +12,17 @@ public static class DependencyInjection
     {
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddHealthChecks().AddNpgSql(configuration.GetConnectionString("Database")!);
+        services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "https://localhost:7090";
+                options.Audience = "EvoFastAPI";
+            });
             
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "m2m.client"));
+        });
         return services;
     }
     

@@ -1,16 +1,17 @@
-using System.ComponentModel;
 using BuildingBlocks.Pagination;
 using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using EvoFast.Application.WordSets.Commands.DeleteWordSet;
 using EvoFast.Application.WordSets.Commands.UpdateWordSet;
 using EvoFast.Application.WordSets.Queries.GetWordSets;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EvoFast.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize("ClientIdPolicy")]
 public class WordSetsController(ISender sender) : ControllerBase
 {
     [HttpPost]
