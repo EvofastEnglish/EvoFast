@@ -1,15 +1,23 @@
 using BuildingBlocks.Messaging.Events;
+using EvoFast.Application.Users.Commands.CreateUser;
 using MassTransit;
 
 namespace EvoFast.Application.Users.EventHandlers.Integration;
 
-public class AuthRegisterEventHandler(ISender sender, ILogger<AuthRegisterEventHandler> logger)
+public class AuthRegisterEventHandler
+    (ISender sender, ILogger<AuthRegisterEventHandler> logger)
     : IConsumer<AuthRegisterEvent>
 {
-    public Task Consume(ConsumeContext<AuthRegisterEvent> context)
+    public async Task Consume(ConsumeContext<AuthRegisterEvent> context)
     {
         logger.LogInformation($"Received AuthRegisterEvent {context.Message.Id}");
-        Console.WriteLine($"Received AuthRegisterEvent {context.Message}");
-        return Task.CompletedTask;
+        var request = new CreateUserRequest(
+            context.Message.UserId,
+            context.Message.Email,
+            context.Message.Username,
+            context.Message.FirstName,
+            context.Message.LastName);
+        var command = new CreateUserCommand(request);
+        await sender.Send(command);
     }
 }

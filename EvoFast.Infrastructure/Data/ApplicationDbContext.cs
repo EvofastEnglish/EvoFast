@@ -16,4 +16,5 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
     
     public DbSet<WordSet> WordSets => Set<WordSet>();
+    public DbSet<User> Users => Set<User>();
 }
