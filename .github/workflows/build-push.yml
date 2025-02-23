@@ -21,8 +21,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.SOLOCODE_USERNAME }}/caresmily-backend:latest
+          tags: ${{ secrets.SOLOCODE_USERNAME }}/evofast-backend:latest
       -
         name: Create trigger 
         run: |
-          curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/caresmily-backend/build?token=buildtoken"
+          curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/evofast-backend/build?token=buildtoken"
