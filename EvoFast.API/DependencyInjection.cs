@@ -15,7 +15,7 @@ public static class DependencyInjection
         services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "https://localhost:7090";
+                options.Authority = "https://evofast-identityserver.solocode.click";
                 options.Audience = "EvoFastAPI";
             });
             

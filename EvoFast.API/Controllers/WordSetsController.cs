@@ -12,7 +12,7 @@ namespace EvoFast.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-// [Authorize("ClientIdPolicy")]
+[Authorize("ClientIdPolicy")]
 public class WordSetsController(ISender sender) : ControllerBase
 {
     [HttpPost]
@@ -48,15 +48,6 @@ public class WordSetsController(ISender sender) : ControllerBase
     public async Task<ActionResult> DeleteWordSet(Guid wordSetId)
     {
         var command = new DeleteWordSetCommand(wordSetId);
-        var result = await sender.Send(command);
-        return Ok(result);
-    }
-    
-    [HttpPost("User")]
-    // [EndpointSummary("Delete WordSet")]
-    public async Task<ActionResult> CreateUser([FromBody] CreateUserRequest model)
-    {
-        var command = new CreateUserCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
