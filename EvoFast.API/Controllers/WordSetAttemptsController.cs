@@ -9,7 +9,7 @@ namespace EvoFast.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize("ClientIdPolicy")]
-public class WordSetsAttemptController(ISender sender) : ControllerBase
+public class WordSetAttemptsController(ISender sender) : ControllerBase
 {
     [HttpPost]
     [EndpointSummary("Create WordSetAttempt")]
