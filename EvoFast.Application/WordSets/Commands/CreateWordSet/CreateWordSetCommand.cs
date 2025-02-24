@@ -3,7 +3,7 @@ namespace EvoFast.Application.WordSets.Commands.CreateWordSet;
 
 public record CreateWordSetCommand(CreateWordSetRequest WordSet) : ICommand<CreateWordSetResult>;
 
-public record CreateWordSetRequest(string WordSetName, string Description);
+public record CreateWordSetRequest(long NumberId);
 
 public record CreateWordSetResult(Guid Id);
 
@@ -11,6 +11,6 @@ public class CreateWordSetCommandValidator : AbstractValidator<CreateWordSetComm
 {
     public CreateWordSetCommandValidator()
     {
-        RuleFor(x => x.WordSet.WordSetName).NotEmpty().WithMessage("WordSetName is required.");
+        RuleFor(x => x.WordSet.NumberId).NotEmpty().WithMessage("NumberId is required.");
     }
 }

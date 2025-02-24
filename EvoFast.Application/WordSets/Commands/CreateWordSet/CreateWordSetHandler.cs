@@ -12,11 +12,10 @@ public class CreateWordSetHandler
     public async Task<CreateWordSetResult> Handle(CreateWordSetCommand command, CancellationToken cancellationToken)
     {
         var wordSet = WordSet.Create(
-            WordSetId.Of(Guid.NewGuid()), 
-            WordSetName.Of(command.WordSet.WordSetName), 
-            command.WordSet.Description);
+            Guid.NewGuid(), 
+            command.WordSet.NumberId);
         dbContext.WordSets.Add(wordSet);
         await dbContext.SaveChangesAsync(cancellationToken);
-        return new CreateWordSetResult(wordSet.Id.Value);
+        return new CreateWordSetResult(wordSet.Id);
     }
 }

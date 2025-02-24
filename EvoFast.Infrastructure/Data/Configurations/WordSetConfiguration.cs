@@ -11,15 +11,6 @@ public class WordSetConfiguration : IEntityTypeConfiguration<WordSet>
     {
         builder.ToTable("WordSet");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(
-            wordSetId => wordSetId.Value, 
-            dbId => WordSetId.Of(dbId));
-        builder.ComplexProperty(x => x.WordSetName, nameBuilder =>
-        {
-            nameBuilder.Property(n => n.Value)
-                .HasColumnName(nameof(WordSet.WordSetName))
-                .HasMaxLength(100)
-                .IsRequired();
-        });
+        builder.HasIndex(x => x.NumberId).IsUnique();
     }
 }

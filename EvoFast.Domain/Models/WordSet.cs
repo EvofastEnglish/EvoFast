@@ -4,22 +4,19 @@ using EvoFast.Domain.ValueObjects;
 
 namespace EvoFast.Domain.Models;
 
-public class WordSet : Aggregate<WordSetId>
+public class WordSet : Aggregate<Guid>
 {
-    public WordSetName WordSetName { get; private set; }
-    public string? Description { get; set; }
-
-    public static WordSet Create(WordSetId wordSetId, WordSetName wordSetName, string? description)
+    public long NumberId { get; set; }
+    public static WordSet Create(Guid wordSetId, long numberId)
     {
-        var wordSet = new WordSet { Id = wordSetId, WordSetName = wordSetName, Description = description };
+        var wordSet = new WordSet { Id = wordSetId, NumberId = numberId };
         wordSet.AddDomainEvent(new WordSetCreatedEvent(wordSet));
         return wordSet;
     }
 
-    public void Update(WordSetName wordSetName, string? description)
+    public void Update(long numberId)
     {
-        WordSetName = wordSetName;
-        Description = description;
+        NumberId = numberId;
         AddDomainEvent(new WordSetUpdatedEvent(this));
     }
 }

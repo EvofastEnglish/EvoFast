@@ -17,6 +17,15 @@ public static class DependencyInjection
             {
                 options.Authority = "https://evofast-identityserver.solocode.click";
                 options.Audience = "EvoFastAPI";
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = "https://evofast-identityserver.solocode.click",
+                    ValidAudience = "EvoFastAPI"
+                };
             });
             
         services.AddAuthorization(options =>
