@@ -1,4 +1,5 @@
 using EvoFast.API;
+using EvoFast.API.Extensions;
 using EvoFast.Application;
 using EvoFast.Infrastructure;
 using EvoFast.Infrastructure.Extensions;
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi("v1", options => { options.AddDocumentTransformer<BearerSecuritySchemeTransformer>(); });
 builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)

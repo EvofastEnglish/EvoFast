@@ -3,7 +3,7 @@ using EvoFast.Domain.Events;
 
 namespace EvoFast.Domain.Models;
 
-public class User : Aggregate<Guid>
+public class User : Entity<Guid>
 {
     public required string Email { get; set; }
     public required string Username { get; set; }
@@ -20,7 +20,6 @@ public class User : Aggregate<Guid>
             FirstName = firstName, 
             LastName = lastName
         };
-        user.AddDomainEvent(new UserCreatedEvent(user));
         return user;
     }
 }

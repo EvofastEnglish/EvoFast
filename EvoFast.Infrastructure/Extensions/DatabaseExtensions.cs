@@ -16,6 +16,8 @@ public static class DatabaseExtensions
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         await SeedWordSetAsync(context);
+        await SeedQuestionAsync(context);
+        await SeedAnswersAsync(context);
     }
 
     private static async Task SeedWordSetAsync(ApplicationDbContext context)
@@ -23,6 +25,24 @@ public static class DatabaseExtensions
         if (!await context.WordSets.AnyAsync())
         {
             await context.WordSets.AddRangeAsync(InitialData.WordSets);
+            await context.SaveChangesAsync();
+        }
+    }
+    
+    private static async Task SeedQuestionAsync(ApplicationDbContext context)
+    {
+        if (!await context.Questions.AnyAsync())
+        {
+            await context.Questions.AddRangeAsync(InitialData.Questions);
+            await context.SaveChangesAsync();
+        }
+    }
+    
+    private static async Task SeedAnswersAsync(ApplicationDbContext context)
+    {
+        if (!await context.Answers.AnyAsync())
+        {
+            await context.Answers.AddRangeAsync(InitialData.Answers);
             await context.SaveChangesAsync();
         }
     }
