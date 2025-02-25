@@ -14,18 +14,23 @@ public class GetQuestionAttemptsHandler
     {
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
-        var totalCount = await dbContext.QuestionAttempts
+
+        var baseQuery = dbContext.QuestionAttempts
             .Include(q => q.WordSetAttempt)
-            .Where(q => query.UserId == q.WordSetAttempt.UserId && q.IsBookmarked)
-            .LongCountAsync(cancellationToken);
-        var questionAttempts = dbContext.QuestionAttempts
-            .Include(q => q.WordSetAttempt)
+            .Where(q => query.UserId == q.WordSetAttempt.UserId && q.IsBookmarked);
+
+        var totalCount = await baseQuery.LongCountAsync(cancellationToken);
+
+        var questionAttempts = await baseQuery
             .Include(q => q.Question)
             .ThenInclude(q => q.Answers)
-            .Where(q => query.UserId == q.WordSetAttempt.UserId && q.IsBookmarked)
             .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize);
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
         var questionAttemptsDto = questionAttempts.Adapt<List<QuestionAttemptDto>>();
+
         return new GetQuestionAttemptsResult(
             new PaginatedResult<QuestionAttemptDto>(pageIndex, pageSize, totalCount, questionAttemptsDto));    }
 }
