@@ -19,13 +19,4 @@ public class WordSetAttemptsController(ISender sender) : ControllerBase
         var result = await sender.Send(command);
         return Ok(result);
     }
-    
-    // [HttpGet]
-    // [EndpointSummary("Get WordSetsAttempt")]
-    // public async Task<ActionResult> GetWordSets([FromQuery] PaginationRequest paginationRequest)
-    // {
-    //     var command = new GetWordSetsQuery(paginationRequest);
-    //     var result = await sender.Send(command);
-    //     return Ok(result);
-    // }
 }

@@ -1,3 +1,4 @@
+using BuildingBlocks.Pagination;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,11 +11,11 @@ namespace EvoFast.API.Controllers;
 [Authorize("ClientIdPolicy")]
 public class QuestionsController(ISender sender) : ControllerBase
 {
-    [HttpGet("{wordSetId}")]
-    [EndpointSummary("Get Questions by WordSet")]
-    public async Task<ActionResult> GetQuestionsByWordSet(Guid wordSetId)
+    [HttpGet("WordSet/{wordSetId}")]
+    [EndpointSummary("Get Questions by WordSet w/ Pagination")]
+    public async Task<ActionResult> GetQuestionsByWordSet([FromQuery] PaginationRequest paginationRequest, Guid wordSetId)
     {
-        var command = new GetQuestionsByWordSetQuery(wordSetId);
+        var command = new GetQuestionsByWordSetQuery(paginationRequest, wordSetId);
         var result = await sender.Send(command);
         return Ok(result);
     }
