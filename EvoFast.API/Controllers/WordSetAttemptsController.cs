@@ -1,5 +1,4 @@
 using EvoFast.Application.WordSetAttempts.Commands.CreateWordSetAttempt;
-using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

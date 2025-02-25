@@ -1,5 +1,4 @@
 using BuildingBlocks.Pagination;
-using EvoFast.Application.Users.Commands.CreateUser;
 using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using EvoFast.Application.WordSets.Commands.DeleteWordSet;
 using EvoFast.Application.WordSets.Commands.UpdateWordSet;

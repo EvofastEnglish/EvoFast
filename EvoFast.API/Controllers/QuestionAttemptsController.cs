@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using BuildingBlocks.Pagination;
 using EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttempts;
-using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
-using EvoFast.Application.WordSets.Queries.GetWordSets;
+using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +24,31 @@ public class QuestionAttemptsController(ISender sender) : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("{userId}")]
-    [EndpointSummary("Get QuestionAttempts By User")]
-    public async Task<ActionResult> GetWordSets([FromQuery] PaginationRequest paginationRequest, Guid userId)
+    [HttpGet]
+    [EndpointSummary("Get QuestionAttempts (For User)")]
+    public async Task<ActionResult> GetQuestionAttempts([FromQuery] PaginationRequest paginationRequest)
     {
-        var command = new GetQuestionAttemptsQuery(paginationRequest, userId);
-        var result = await sender.Send(command);
-        return Ok(result);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new GetQuestionAttemptsQuery(paginationRequest, Guid.Parse(userId));
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpGet("WordSet/{WordSetId}")]
+    [EndpointSummary("Get QuestionAttempts (For User) By WordSet")]
+    public async Task<ActionResult> QuestionAttempts([FromQuery] PaginationRequest paginationRequest, Guid WordSetId)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new GetQuestionAttemptsByWordSetQuery(paginationRequest, Guid.Parse(userId), WordSetId);
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
     }
 }

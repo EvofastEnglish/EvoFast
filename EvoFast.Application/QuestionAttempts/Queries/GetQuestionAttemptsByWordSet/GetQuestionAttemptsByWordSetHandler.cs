@@ -4,20 +4,22 @@ using EvoFast.Application.Dtos;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttempts;
+namespace EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSet;
 
-public class GetQuestionAttemptsHandler
-    (IApplicationDbContext dbContext)
-    : IQueryHandler<GetQuestionAttemptsQuery, GetQuestionAttemptsResult>
+public class GetQuestionAttemptsByWordSetHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetQuestionAttemptsByWordSetQuery, GetQuestionAttemptsByWordSetResult>
 {
-    public async Task<GetQuestionAttemptsResult> Handle(GetQuestionAttemptsQuery query, CancellationToken cancellationToken)
+    public async Task<GetQuestionAttemptsByWordSetResult> Handle(GetQuestionAttemptsByWordSetQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
         var baseQuery = dbContext.QuestionAttempts
             .Include(q => q.WordSetAttempt)
-            .Where(q => query.UserId == q.WordSetAttempt.UserId && q.IsBookmarked);
+            .Where(q => 
+                query.UserId == q.WordSetAttempt.UserId 
+                && query.WordSetId == q.WordSetAttempt.WordSetId 
+                && q.IsBookmarked);
 
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
 
@@ -31,7 +33,7 @@ public class GetQuestionAttemptsHandler
 
         var questionAttemptsDto = questionAttempts.Adapt<List<QuestionAttemptDto>>();
 
-        return new GetQuestionAttemptsResult(
+        return new GetQuestionAttemptsByWordSetResult(
             new PaginatedResult<QuestionAttemptDto>(pageIndex, pageSize, totalCount, questionAttemptsDto));
     }
 }
