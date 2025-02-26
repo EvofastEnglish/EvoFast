@@ -1,5 +1,8 @@
 using EvoFast.Application.Data;
+using EvoFast.Application.Dtos;
 using EvoFast.Domain.Models;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
 
@@ -9,6 +12,8 @@ public class CreateQuestionAttemptHandler(IApplicationDbContext dbContext)
     public async Task<CreateQuestionAttemptResult> Handle(CreateQuestionAttemptCommand command, CancellationToken cancellationToken)
     {
         var questionAttempt = dbContext.QuestionAttempts
+            .Include(qt => qt.Question)
+            .ThenInclude(q => q.Answers)
             .FirstOrDefault(qt => qt.QuestionId == command.QuestionAttempt.QuestionId 
                                   && qt.WordSetAttemptId == command.QuestionAttempt.WordSetAttemptId);
         if (questionAttempt == null)
@@ -26,6 +31,6 @@ public class CreateQuestionAttemptHandler(IApplicationDbContext dbContext)
             questionAttempt.IsBookmarked = command.QuestionAttempt.IsBookmarked;
         }
         await dbContext.SaveChangesAsync(cancellationToken);
-        return new CreateQuestionAttemptResult(questionAttempt.Id);
+        return new CreateQuestionAttemptResult(questionAttempt.Adapt<QuestionAttemptDto>());
     }
 }

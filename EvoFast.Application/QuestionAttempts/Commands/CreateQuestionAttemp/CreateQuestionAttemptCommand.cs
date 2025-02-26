@@ -1,10 +1,12 @@
+using EvoFast.Application.Dtos;
+
 namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
 
 public record CreateQuestionAttemptCommand(CreateQuestionAttemptRequest QuestionAttempt) : ICommand<CreateQuestionAttemptResult>;
 
 public record CreateQuestionAttemptRequest(Guid QuestionId, Guid WordSetAttemptId, bool IsBookmarked);
 
-public record CreateQuestionAttemptResult(Guid Id);
+public record CreateQuestionAttemptResult(QuestionAttemptDto QuestionAttempt);
 
 public class CreateQuestionAttemptCommandValidator : AbstractValidator<CreateQuestionAttemptCommand>
 {
