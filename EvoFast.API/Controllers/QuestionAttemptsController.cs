@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using BuildingBlocks.Pagination;
+using EvoFast.Application.QuestionAttempts.Commands.BookmarkQuestionAttempt;
 using EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttempt;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttempts;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSet;
@@ -50,5 +51,15 @@ public class QuestionAttemptsController(ISender sender) : ControllerBase
             return Ok(result);
         }
         return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpPut("Bookmark")]
+    [EndpointSummary("Bookmark QuestionAttempt")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> BookmarkQuestionAttempt([FromBody] BookmarkQuestionAttemptRequest model)
+    {
+        var command = new BookmarkQuestionAttemptCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
     }
 }
