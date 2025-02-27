@@ -1,6 +1,6 @@
 using EvoFast.Application.Dtos;
 
-namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
+namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttempt;
 
 public record CreateQuestionAttemptCommand(CreateQuestionAttemptRequest QuestionAttempt) : ICommand<CreateQuestionAttemptResult>;
 

@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using BuildingBlocks.Pagination;
-using EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
+using EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttempt;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttempts;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSet;
 using MediatR;

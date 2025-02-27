@@ -4,7 +4,7 @@ using EvoFast.Domain.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttemp;
+namespace EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttempt;
 
 public class CreateQuestionAttemptHandler(IApplicationDbContext dbContext)
     : ICommandHandler<CreateQuestionAttemptCommand, CreateQuestionAttemptResult>

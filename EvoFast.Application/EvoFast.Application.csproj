@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="QuestionAttempts\Commands\BookmarkQuestionAttempt\" />
       <Folder Include="Users\EventHandlers\Domain\" />
     </ItemGroup>
 
