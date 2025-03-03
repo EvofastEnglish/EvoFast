@@ -19,15 +19,10 @@ public class UsersController(ISender sender) : ControllerBase
     [HttpPut("FcmToken")]
     [EndpointSummary("Update FcmToken")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> BookmarkQuestionAttempt([FromBody] string fcmToken)
-    {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId != null)
-        {
-            var command = new UpdateFcmTokenCommand(new UpdateFcmTokenRequest(fcmToken, Guid.Parse(userId)));
-            var result = await sender.Send(command);
-            return Ok(result);
-        }
-        return BadRequest("User ID is missing in the token");
+    public async Task<ActionResult> BookmarkQuestionAttempt([FromBody] UpdateFcmTokenRequest model)
+    { 
+        var command = new UpdateFcmTokenCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
     }
 }
