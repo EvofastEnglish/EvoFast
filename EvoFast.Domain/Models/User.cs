@@ -9,7 +9,8 @@ public class User : Entity<Guid>
     public required string Username { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-
+    
+    public string? FcmToken { get; set; }
     public static User Create(Guid id, string email, string username, string? firstName, string? lastName)
     {
         var user = new User
