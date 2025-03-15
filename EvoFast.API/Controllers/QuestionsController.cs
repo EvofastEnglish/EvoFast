@@ -25,14 +25,14 @@ public class QuestionsController(ISender sender) : ControllerBase
     [HttpPost]
     [EndpointSummary("Create Question")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> CreateWordSet([FromBody] CreateQuestionRequest model)
+    public async Task<ActionResult> CreateQuestion([FromBody] CreateQuestionRequest model)
     {
         var command = new CreateQuestionCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
     
-    [HttpPost]
+    [HttpPost("Answer")]
     [EndpointSummary("Add Answer To Question")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> AddAnswer([FromBody] AddAnswerRequest model)

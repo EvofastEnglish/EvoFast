@@ -22,7 +22,7 @@ public class CategoriesController(ISender sender) : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost]
+    [HttpPost("WordSet")]
     [EndpointSummary("Assign WordSet To Category")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> CreateWordSetAttempt([FromBody] AssignWordSetRequest model)
