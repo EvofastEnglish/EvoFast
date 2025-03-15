@@ -3,6 +3,7 @@ using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using EvoFast.Application.WordSets.Commands.DeleteWordSet;
 using EvoFast.Application.WordSets.Commands.UpdateWordSet;
 using EvoFast.Application.WordSets.Queries.GetWordSets;
+using EvoFast.Application.WordSets.Queries.GetWordSetsByCategory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,15 @@ public class WordSetsController(ISender sender) : ControllerBase
     public async Task<ActionResult> GetWordSets([FromQuery] PaginationRequest paginationRequest)
     {
         var command = new GetWordSetsQuery(paginationRequest);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpGet("Category/{categoryId}")]
+    [EndpointSummary("Get WordSet by Category w/ Pagination")]
+    public async Task<ActionResult> GetWordSetsByCategory([FromQuery] PaginationRequest paginationRequest, Guid categoryId)
+    {
+        var command = new GetWordSetsByCategoryQuery(paginationRequest, categoryId);
         var result = await sender.Send(command);
         return Ok(result);
     }
