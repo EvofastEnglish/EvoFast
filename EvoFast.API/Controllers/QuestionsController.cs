@@ -1,4 +1,5 @@
 using BuildingBlocks.Pagination;
+using EvoFast.Application.Questions.Commands.CreateQuestion;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,16 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> GetQuestionsByWordSet([FromQuery] PaginationRequest paginationRequest, Guid wordSetId)
     {
         var command = new GetQuestionsByWordSetQuery(paginationRequest, wordSetId);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPost]
+    [EndpointSummary("Create Question")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> CreateWordSet([FromBody] CreateQuestionRequest model)
+    {
+        var command = new CreateQuestionCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
