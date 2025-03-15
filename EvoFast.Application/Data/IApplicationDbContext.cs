@@ -11,5 +11,8 @@ public interface IApplicationDbContext
     public DbSet<WordSetAttempt> WordSetAttempts { get;}
     public DbSet<QuestionAttempt> QuestionAttempts { get;}
     public DbSet<User> Users { get;}
+    public DbSet<Category> Categories { get;}
+    public DbSet<WordSetCategory> WordSetCategories { get;}
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

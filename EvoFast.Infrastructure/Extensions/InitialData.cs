@@ -174,4 +174,18 @@ public class InitialData
             IsCorrect = false,
         },
     };
+    
+    public static IEnumerable<Category> Categories => new List<Category>
+    {
+        new Category
+        {
+            Id = Guid.Parse("0194fbdd-043c-7a92-b2ec-7545919ef33c"),
+            Name = "英単語・イディオム学習",
+        },
+        new Category
+        {
+            Id = Guid.Parse("0194e578-53a8-74e1-97f3-dde6bb1294bd"),
+            Name = "フレーズ学習",
+        },
+    };
 }

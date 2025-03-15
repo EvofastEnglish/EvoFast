@@ -22,4 +22,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<QuestionAttempt> QuestionAttempts => Set<QuestionAttempt>();
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<WordSetCategory> WordSetCategories => Set<WordSetCategory>();
 }
