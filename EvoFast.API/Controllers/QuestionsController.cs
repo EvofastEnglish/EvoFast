@@ -1,4 +1,5 @@
 using BuildingBlocks.Pagination;
+using EvoFast.Application.Questions.Commands.AddAnswer;
 using EvoFast.Application.Questions.Commands.CreateQuestion;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
@@ -27,6 +28,16 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> CreateWordSet([FromBody] CreateQuestionRequest model)
     {
         var command = new CreateQuestionCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPost]
+    [EndpointSummary("Add Answer To Question")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<ActionResult> AddAnswer([FromBody] AddAnswerRequest model)
+    {
+        var command = new AddAnswerCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
