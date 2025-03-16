@@ -3,7 +3,7 @@ using EvoFast.Domain.Abstractions;
 
 namespace EvoFast.Domain.Models;
 
-public class Question : Entity<Guid>
+public class Question : Aggregate<Guid>
 {
     public string Name { get; set; }
     
@@ -11,5 +11,6 @@ public class Question : Entity<Guid>
     public Guid WordSetId { get; set; }
     public virtual WordSet WordSet { get; set; }
     
-    public virtual ICollection<Answer>? Answers { get; set; }
+    private readonly List<Answer> _answers = new();
+    public IReadOnlyList<Answer> Answers => _answers.AsReadOnly();
 }
