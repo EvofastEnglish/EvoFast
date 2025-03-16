@@ -16,7 +16,8 @@ public class GetWordSetsByCategoryHandler(IApplicationDbContext dbContext)
         
         var baseQuery = dbContext.WordSets
             .Include(w => w.WordSetCategories)
-            .Where(w => w.WordSetCategories!.Any(wc => wc.CategoryId == query.CategoryId));
+            .Where(w => w.WordSetCategories!.Any(wc => wc.CategoryId == query.CategoryId))
+            .OrderBy(w => w.NumberId);
         
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
         var wordSets = await baseQuery
