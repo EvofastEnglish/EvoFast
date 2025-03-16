@@ -1,6 +1,7 @@
 using BuildingBlocks.Pagination;
 using EvoFast.Application.Questions.Commands.AddAnswer;
 using EvoFast.Application.Questions.Commands.CreateQuestion;
+using EvoFast.Application.Questions.Commands.DeleteAnswer;
 using EvoFast.Application.Questions.Commands.UpdateAnswer;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
@@ -49,6 +50,15 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> UpdateAnswer([FromBody] UpdateAnswerRequest model)
     {
         var command = new UpdateAnswerCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{QuestionId}/Answer/{AnswerId}")]
+    [EndpointSummary("Delete Answer Of Question")]
+    public async Task<ActionResult> DeleteAnswer(Guid QuestionId, Guid AnswerId)
+    {
+        var command = new DeleteAnswerCommand(QuestionId, AnswerId);
         var result = await sender.Send(command);
         return Ok(result);
     }

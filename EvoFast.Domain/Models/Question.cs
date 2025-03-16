@@ -36,4 +36,15 @@ public class Question : Aggregate<Guid>
         }
         answer.Update(newName, newTranslatedName, isCorrect);
     }
+    
+    public void RemoveAnswer(Guid answerId)
+    {
+        var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+        if (answer == null)
+        {
+            throw new Exception("Answer not found");
+        }
+
+        _answers.Remove(answer);
+    }
 }
