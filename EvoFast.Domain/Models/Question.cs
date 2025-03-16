@@ -26,4 +26,14 @@ public class Question : Aggregate<Guid>
         };
         _answers.Add(newAnswer);
     }
+    
+    public void UpdateAnswer(Guid answerId, string? newName, string? newTranslatedName, bool? isCorrect)
+    {
+        var answer = _answers.FirstOrDefault(a => a.Id == answerId);
+        if (answer == null)
+        {
+            throw new Exception("Answer not found");
+        }
+        answer.Update(newName, newTranslatedName, isCorrect);
+    }
 }

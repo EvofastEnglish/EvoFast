@@ -12,4 +12,22 @@ public class Answer : Entity<Guid>
     [ForeignKey("QuestionId")]
     public Guid QuestionId { get; set; }
     public virtual Question Question { get; set; }
+    
+    public void Update(string? newName, string? newTranslatedName, bool? isCorrect)
+    {
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            Name = newName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newTranslatedName))
+        {
+            TranslatedName = newTranslatedName;
+        }
+
+        if (isCorrect.HasValue)
+        {
+            IsCorrect = isCorrect.Value;
+        }
+    }
 }
