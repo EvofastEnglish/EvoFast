@@ -18,7 +18,6 @@ public class Question : Aggregate<Guid>
     {
         var newAnswer = new Answer
         {
-            Id = Guid.NewGuid(),
             Name = name,
             TranslatedName = translatedName,
             IsCorrect = isCorrect,
