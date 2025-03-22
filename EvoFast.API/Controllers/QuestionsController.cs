@@ -1,5 +1,6 @@
 using BuildingBlocks.Pagination;
 using EvoFast.Application.Questions.Commands.AddAnswer;
+using EvoFast.Application.Questions.Commands.AssignWordSetCategory;
 using EvoFast.Application.Questions.Commands.CreateQuestion;
 using EvoFast.Application.Questions.Commands.DeleteAnswer;
 using EvoFast.Application.Questions.Commands.UpdateAnswer;
@@ -59,6 +60,15 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> DeleteAnswer(Guid QuestionId, Guid AnswerId)
     {
         var command = new DeleteAnswerCommand(QuestionId, AnswerId);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPut("AssignWordSetCategory")]
+    [EndpointSummary("Assign WordSetCategory to Question")]
+    public async Task<ActionResult> AssignWordSetCategory([FromBody] AssignWordSetCategoryRequest model)
+    {
+        var command = new AssignWordSetCategoryCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
