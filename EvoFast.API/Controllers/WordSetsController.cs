@@ -2,6 +2,7 @@ using BuildingBlocks.Pagination;
 using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using EvoFast.Application.WordSets.Commands.DeleteWordSet;
 using EvoFast.Application.WordSets.Commands.UpdateWordSet;
+using EvoFast.Application.WordSets.Queries.GetWordSetCategories;
 using EvoFast.Application.WordSets.Queries.GetWordSets;
 using EvoFast.Application.WordSets.Queries.GetWordSetsByCategory;
 using MediatR;
@@ -57,6 +58,15 @@ public class WordSetsController(ISender sender) : ControllerBase
     public async Task<ActionResult> DeleteWordSet(Guid wordSetId)
     {
         var command = new DeleteWordSetCommand(wordSetId);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpGet("{wordSetId}/WordSetCategories")]
+    [EndpointSummary("Get WordSetCategories by WordSetId")]
+    public async Task<ActionResult> GetWordSetCategories(Guid wordSetId)
+    {
+        var command = new GetWordSetCategoriesQuery(wordSetId);
         var result = await sender.Send(command);
         return Ok(result);
     }
