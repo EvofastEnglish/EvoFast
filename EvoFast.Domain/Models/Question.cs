@@ -11,6 +11,10 @@ public class Question : Aggregate<Guid>
     public Guid WordSetId { get; set; }
     public virtual WordSet WordSet { get; set; }
     
+    [ForeignKey("WordSetCategoryId")]
+    public Guid? WordSetCategoryId { get; set; }
+    public virtual WordSetCategory WordSetCategory { get; set; }
+    
     private readonly List<Answer> _answers = new();
     public IReadOnlyList<Answer> Answers => _answers.AsReadOnly();
     
