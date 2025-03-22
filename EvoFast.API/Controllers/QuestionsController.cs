@@ -5,6 +5,7 @@ using EvoFast.Application.Questions.Commands.CreateQuestion;
 using EvoFast.Application.Questions.Commands.DeleteAnswer;
 using EvoFast.Application.Questions.Commands.UpdateAnswer;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
+using EvoFast.Application.Questions.Queries.GetQuestionsByWordSetCategoryId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,15 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> GetQuestionsByWordSet([FromQuery] PaginationRequest paginationRequest, Guid wordSetId)
     {
         var command = new GetQuestionsByWordSetQuery(paginationRequest, wordSetId);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpGet("WordSetCategory/{wordSetCategoryId}")]
+    [EndpointSummary("Get Questions by WordSetCategory w/ Pagination")]
+    public async Task<ActionResult> GetQuestionsByWordSetCategory([FromQuery] PaginationRequest paginationRequest, Guid wordSetCategoryId)
+    {
+        var command = new GetQuestionsByWordSetCategoryQuery(paginationRequest, wordSetCategoryId);
         var result = await sender.Send(command);
         return Ok(result);
     }
