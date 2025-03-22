@@ -11,6 +11,6 @@ public class WordSetCategoryConfiguration : IEntityTypeConfiguration<WordSetCate
     {
         builder.ToTable("WordSetCategory");
         builder.HasKey(x => x.Id);
-        builder.HasIndex(q => new { q.WordSetId, q.CategoryId }).IsUnique();
+        // builder.HasIndex(q => new { q.WordSetId, q.CategoryId }).IsUnique();
     }
 }
