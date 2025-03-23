@@ -3,6 +3,7 @@ namespace EvoFast.Application.Dtos;
 public record QuestionDto(
     Guid Id,
     string Name,
-    Guid? WordSetCategoryId,
+    string TranslatedName
+,    Guid? WordSetCategoryId,
     List<AnswerDto> Answers
     );
