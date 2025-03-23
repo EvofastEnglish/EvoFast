@@ -4,6 +4,7 @@ using EvoFast.Application.Questions.Commands.AssignWordSetCategory;
 using EvoFast.Application.Questions.Commands.CreateQuestion;
 using EvoFast.Application.Questions.Commands.DeleteAnswer;
 using EvoFast.Application.Questions.Commands.UpdateAnswer;
+using EvoFast.Application.Questions.Commands.UpdateQuestion;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using EvoFast.Application.Questions.Queries.GetQuestionsByWordSetCategoryId;
 using MediatR;
@@ -41,6 +42,15 @@ public class QuestionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> CreateQuestion([FromBody] CreateQuestionRequest model)
     {
         var command = new CreateQuestionCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPut]
+    [EndpointSummary("Update Question")]
+    public async Task<ActionResult> UpdateQuestion([FromBody] UpdateQuestionRequest model)
+    {
+        var command = new UpdateQuestionCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }

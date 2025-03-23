@@ -51,4 +51,17 @@ public class Question : Aggregate<Guid>
 
         _answers.Remove(answer);
     }
+    
+    public void Update(string? newName, string? newTranslatedName)
+    {
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            Name = newName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newTranslatedName))
+        {
+            TranslatedName = newTranslatedName;
+        }
+    }
 }
