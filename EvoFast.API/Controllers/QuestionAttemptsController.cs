@@ -4,6 +4,7 @@ using EvoFast.Application.QuestionAttempts.Commands.BookmarkQuestionAttempt;
 using EvoFast.Application.QuestionAttempts.Commands.CreateQuestionAttempt;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttempts;
 using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSet;
+using EvoFast.Application.QuestionAttempts.Queries.GetQuestionAttemptsByWordSetCategory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,5 +62,19 @@ public class QuestionAttemptsController(ISender sender) : ControllerBase
         var command = new BookmarkQuestionAttemptCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
+    }
+    
+    [HttpGet("WordSetCategory/{WordSetCategoryId}")]
+    [EndpointSummary("Get QuestionAttempts (For User) By WordSetCategory")]
+    public async Task<ActionResult> GetQuestionAttemptsByCategory([FromQuery] PaginationRequest paginationRequest, Guid WordSetCategoryId)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new GetQuestionAttemptsByWordSetCategoryQuery(paginationRequest, Guid.Parse(userId), WordSetCategoryId);
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
     }
 }
