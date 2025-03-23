@@ -7,6 +7,7 @@ public class Question : Aggregate<Guid>
 {
     public string Name { get; set; }
     
+    public string? TranslatedName { get; set; }
     [ForeignKey("WordSetId")]
     public Guid WordSetId { get; set; }
     public virtual WordSet WordSet { get; set; }
