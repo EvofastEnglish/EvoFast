@@ -15,10 +15,11 @@ public class GetQuestionAttemptsByWordSetCategoryHandler(IApplicationDbContext d
         var pageSize = query.PaginationRequest.PageSize;
 
         var baseQuery = dbContext.QuestionAttempts
+            .Include(q => q.Question)
             .Include(q => q.WordSetAttempt)
             .Where(q => 
                 query.UserId == q.WordSetAttempt.UserId 
-                && query.WordSetCategoryId == q.WordSetAttempt.WordSetId 
+                && query.WordSetCategoryId == q.Question.WordSetCategoryId 
                 && q.IsBookmarked);
 
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
