@@ -17,10 +17,16 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
 
         var chatGptMessageDtos = new List<ChatGptMessageDto>();
         
+        string languageInstruction = "";
+        if (conversation.Language != "en" && LanguageNames.TryGetValue(conversation.Language, out var languageName))
+        {
+            languageInstruction = $"Please respond in {languageName} language only. ";
+        }
         var prompt = $"You are an AI assistant. The user's role is {conversation.YourRole}. " +
                      $"The AI's role is {conversation.AIRole}. " +
                      $"The topic of the conversation is {conversation.Topic}. " +
-                     $"Please start the conversation by asking the user how can I assist them?";        
+                     $"{languageInstruction}" +
+                     $"Please start the conversation by asking the user how can I assist them?";
         chatGptMessageDtos.Add(new ChatGptMessageDto("system", prompt));
 
         var systemMessage = new Message
@@ -47,4 +53,17 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
         await dbContext.SaveChangesAsync(cancellationToken);
         return new CreateConversationResult(conversation.Id);    
     }
+    
+    private static readonly Dictionary<string, string> LanguageNames = new()
+    {
+        { "en", "English" },
+        { "vi", "Vietnamese" },
+        { "fr", "French" },
+        { "de", "German" },
+        { "es", "Spanish" },
+        { "zh", "Chinese" },
+        { "ja", "Japanese" },
+        { "ko", "Korean" },
+        { "ru", "Russian" },
+    };
 }

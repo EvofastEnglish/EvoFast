@@ -19,6 +19,7 @@ public class GetMessagesHandler(IApplicationDbContext dbContext)
             .Where(m => m.ConversationId == query.ConversationId);
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
         var messages = baseQuery
+            .OrderBy(m => m.CreatedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize);
         var messageDtos  = messages.Adapt<List<MessageDto>>();

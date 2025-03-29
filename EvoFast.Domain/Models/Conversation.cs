@@ -8,6 +8,8 @@ public class Conversation : Entity<Guid>
     public string YourRole { get; set; }
     public string AIRole { get; set; }
     public string Topic { get; set; }
+    public string? Language { get; set; }
+
     [ForeignKey("UserId")]
     public Guid UserId { get; set; }
     public virtual User User { get; set; }

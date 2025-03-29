@@ -3,6 +3,7 @@ namespace EvoFast.Application.Conversations.Commands.AddConversation;
 public record CreateConversationCommand(CreateConversationRequest Conversation) : ICommand<CreateConversationResult>;
 
 public record CreateConversationRequest(
+    String Language,
     String YourRole,
     String AIRole,
     String Topic,
