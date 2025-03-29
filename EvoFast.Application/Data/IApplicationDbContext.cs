@@ -13,6 +13,8 @@ public interface IApplicationDbContext
     public DbSet<User> Users { get;}
     public DbSet<Category> Categories { get;}
     public DbSet<WordSetCategory> WordSetCategories { get;}
+    public DbSet<Conversation> Conversations { get;}
+    public DbSet<Message> Messages { get;}
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
