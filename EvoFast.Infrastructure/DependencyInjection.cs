@@ -20,6 +20,7 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddHttpContextAccessor();
         return services;
     }
 }

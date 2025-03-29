@@ -1,4 +1,7 @@
+using BuildingBlocks.Pagination;
 using EvoFast.Application.Conversations.Commands.AddConversation;
+using EvoFast.Application.Conversations.Queries.GetConversations;
+using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,14 @@ namespace EvoFast.API.Controllers;
 [Authorize("ClientIdPolicy")]
 public class ConversationsController(ISender sender) : ControllerBase
 {
+    [HttpGet]
+    [EndpointSummary("Get Conversations w/ Pagination")]
+    public async Task<ActionResult> GetQuestionsByWordSet([FromQuery] PaginationRequest paginationRequest)
+    {
+        var command = new GetConversationsQuery(paginationRequest);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
     [HttpPost]
     [EndpointSummary("Create Conversation")]
     [ProducesResponseType(StatusCodes.Status201Created)]

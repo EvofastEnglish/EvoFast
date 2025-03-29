@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Security.Claims;
 using EvoFast.Application.Data;
 using EvoFast.Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     
     private Guid GetCurrentUserId(IHttpContextAccessor httpContextAccessor)
     {
-        var userIdClaim = httpContextAccessor.HttpContext?.User?.FindFirst("sub")?.Value;
+        var userIdClaim = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         return userIdClaim != null ? Guid.Parse(userIdClaim) : Guid.Empty;
     }
     
