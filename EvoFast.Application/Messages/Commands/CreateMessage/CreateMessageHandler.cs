@@ -26,6 +26,8 @@ public class CreateMessageHandler(IApplicationDbContext dbContext, IChatGptServi
             .Where(m => m.ConversationId == command.MessageRequest.ConversationId)
             .OrderBy(m => m.CreatedAt)
             .ToList();
+        messages.Add(userMessage);
+        
         var chatGptMessageDtos = messages.Adapt<List<ChatGptMessageDto>>();
         var (role, content) = await chatGptService.GetChatGptResponseAsync(chatGptMessageDtos);
         var assistantMessage = new Message
