@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Messaging.MassTransit;
 using EvoFast.Application.Dtos;
@@ -24,6 +25,16 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
         MapsterConfig.Configure();
+        services.Configure<Dictionary<string, string>>(options =>
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "Resources", "languages.json");
+            var json = File.ReadAllText(path);
+            var languages = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+            foreach (var language in languages)
+            {
+                options[language.Key] = language.Value;
+            }
+        });
         return services;
     }
 }

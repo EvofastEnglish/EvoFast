@@ -3,12 +3,14 @@ using EvoFast.Application.Dtos;
 using EvoFast.Application.Services;
 using EvoFast.Domain.Models;
 using Mapster;
+using Microsoft.Extensions.Options;
 
 namespace EvoFast.Application.Conversations.Commands.AddConversation;
 
-public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGptService chatGptService)
+public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGptService chatGptService, IOptions<Dictionary<string, string>> languageOptions)
 : ICommandHandler<CreateConversationCommand, CreateConversationResult>
 {
+    private readonly Dictionary<string, string> _languageNames = languageOptions.Value;
     public async Task<CreateConversationResult> Handle(CreateConversationCommand command, CancellationToken cancellationToken)
     {
         var conversation = command.Conversation.Adapt<Conversation>();
@@ -18,7 +20,7 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
         var chatGptMessageDtos = new List<ChatGptMessageDto>();
         
         string languageInstruction = "";
-        if (conversation.Language != "en" && LanguageNames.TryGetValue(conversation.Language, out var languageName))
+        if (conversation.Language != "en" && _languageNames.TryGetValue(conversation.Language, out var languageName))
         {
             languageInstruction = $"Please respond in {languageName} language only. ";
         }
@@ -53,17 +55,4 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
         await dbContext.SaveChangesAsync(cancellationToken);
         return new CreateConversationResult(conversation.Id);    
     }
-    
-    private static readonly Dictionary<string, string> LanguageNames = new()
-    {
-        { "en", "English" },
-        { "vi", "Vietnamese" },
-        { "fr", "French" },
-        { "de", "German" },
-        { "es", "Spanish" },
-        { "zh", "Chinese" },
-        { "ja", "Japanese" },
-        { "ko", "Korean" },
-        { "ru", "Russian" },
-    };
 }

@@ -31,4 +31,8 @@
       <ProjectReference Include="..\EvoFast.Infrastructure\EvoFast.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="Resources\languages.json" />
+    </ItemGroup>
+
 </Project>
