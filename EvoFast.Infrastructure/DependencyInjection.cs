@@ -1,5 +1,7 @@
 using EvoFast.Application.Data;
+using EvoFast.Application.Services;
 using EvoFast.Infrastructure.Interceptors;
+using EvoFast.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddHttpContextAccessor();
+        services.AddHttpClient<IChatGptService, ChatGptService>();
         return services;
     }
 }
