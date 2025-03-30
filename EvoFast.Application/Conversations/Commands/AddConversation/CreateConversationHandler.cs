@@ -28,8 +28,9 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
                      $"The AI's role is {conversation.AIRole}. " +
                      $"The topic of the conversation is {conversation.Topic}. " +
                      $"{languageInstruction} " +
-                     "Please keep your responses short, clear, and focused on the conversation. " +
-                     "Avoid long explanations, and use simple, concise sentences to keep the dialogue flowing naturally.";
+                     "The conversation should be dynamic, with short, clear responses that promote dialogue. " +
+                     "Your responses should be concise, and when appropriate, ask follow-up questions to keep the conversation flowing. " +
+                     "Maintain an engaging and natural back-and-forth between the user and the AI.";
         chatGptMessageDtos.Add(new ChatGptMessageDto("system", prompt));
 
         var systemMessage = new Message
