@@ -27,8 +27,9 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
         var prompt = $"You are an AI assistant. The user's role is {conversation.YourRole}. " +
                      $"The AI's role is {conversation.AIRole}. " +
                      $"The topic of the conversation is {conversation.Topic}. " +
-                     $"{languageInstruction}" +
-                     $"Please start the conversation by asking the user how can I assist them?";
+                     $"{languageInstruction} " +
+                     "Please keep your responses short, clear, and focused on the conversation. " +
+                     "Avoid long explanations, and use simple, concise sentences to keep the dialogue flowing naturally.";
         chatGptMessageDtos.Add(new ChatGptMessageDto("system", prompt));
 
         var systemMessage = new Message
