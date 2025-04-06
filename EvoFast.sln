@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", "BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj", "{D527BE8F-AD5E-4E1C-9CF1-A10A3BBD1382}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoFast.Tests", "EvoFast.Tests\EvoFast.Tests.csproj", "{CF3D956D-665F-48EF-8FD0-6D2EF84B0D98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{D527BE8F-AD5E-4E1C-9CF1-A10A3BBD1382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D527BE8F-AD5E-4E1C-9CF1-A10A3BBD1382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D527BE8F-AD5E-4E1C-9CF1-A10A3BBD1382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3D956D-665F-48EF-8FD0-6D2EF84B0D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3D956D-665F-48EF-8FD0-6D2EF84B0D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF3D956D-665F-48EF-8FD0-6D2EF84B0D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3D956D-665F-48EF-8FD0-6D2EF84B0D98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
