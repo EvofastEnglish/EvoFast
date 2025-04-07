@@ -40,18 +40,18 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.SOLOCODE_USERNAME }}
-      #     password: ${{ secrets.SOLOCODE_TOKEN }}
-      # - name: Build and push
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: ${{ secrets.SOLOCODE_USERNAME }}/evofast-backend:latest
-      # -
-      #   name: Create trigger 
-      #   run: |
-      #     curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/evofast-backend/build?token=buildtoken"
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.SOLOCODE_USERNAME }}
+          password: ${{ secrets.SOLOCODE_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.SOLOCODE_USERNAME }}/evofast-backend:latest
+      -
+        name: Create trigger 
+        run: |
+          curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/evofast-backend/build?token=buildtoken"
