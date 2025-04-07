@@ -3,7 +3,7 @@ name: Build-Push Docker Image
 on:
   push:
     branches:
-      - "develop"
+      - "testing"
 
 jobs:
   docker:
@@ -11,18 +11,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          username: ${{ secrets.SOLOCODE_USERNAME }}
-          password: ${{ secrets.SOLOCODE_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.SOLOCODE_USERNAME }}/evofast-backend:latest
-      -
-        name: Create trigger 
-        run: |
-          curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/evofast-backend/build?token=buildtoken"
+          dotnet-version: 9.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+        
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.SOLOCODE_USERNAME }}
+      #     password: ${{ secrets.SOLOCODE_TOKEN }}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ secrets.SOLOCODE_USERNAME }}/evofast-backend:latest
+      # -
+      #   name: Create trigger 
+      #   run: |
+      #     curl -k "https://lieudvq0302:114cc4eb6e926ebcb4a481b76c3ca1f9d1@jenkins.solocode.click/job/evofast-backend/build?token=buildtoken"
