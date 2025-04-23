@@ -24,6 +24,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(builder);
         builder.Entity<Conversation>()
             .HasQueryFilter(c => c.UserId == _currentUserId);
+        builder.Entity<WordSetAttempt>()
+            .HasQueryFilter(c => c.UserId == _currentUserId);
     }
     
     private Guid GetCurrentUserId(IHttpContextAccessor httpContextAccessor)
