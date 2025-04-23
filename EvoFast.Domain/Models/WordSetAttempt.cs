@@ -12,4 +12,5 @@ public class WordSetAttempt : Entity<Guid>
     [ForeignKey("WordSetId")]
     public Guid WordSetId { get; set; }
     public virtual WordSet WordSet { get; set; }
+    public DateTime? CompletedAt { get; set; }
 }

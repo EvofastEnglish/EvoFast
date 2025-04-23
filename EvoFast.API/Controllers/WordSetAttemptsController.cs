@@ -1,3 +1,4 @@
+using EvoFast.Application.WordSetAttempts.Commands.CompleteWordSetAttempt;
 using EvoFast.Application.WordSetAttempts.Commands.CreateWordSetAttempt;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,15 @@ public class WordSetAttemptsController(ISender sender) : ControllerBase
     public async Task<ActionResult> CreateWordSetAttempt([FromBody] CreateWordSetAttemptRequest model)
     {
         var command = new CreateWordSetAttemptCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPost("Complete")]
+    [EndpointSummary("Complete WordSetAttempt")]
+    public async Task<ActionResult> CompleteWordSetAttempt([FromBody] CompleteWordSetAttemptRequest model)
+    {
+        var command = new CompleteWordSetAttemptCommand(model);
         var result = await sender.Send(command);
         return Ok(result);
     }
