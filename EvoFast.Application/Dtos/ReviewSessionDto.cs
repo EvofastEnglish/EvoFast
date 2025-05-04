@@ -3,5 +3,7 @@ namespace EvoFast.Application.Dtos;
 public record ReviewSessionDto(
     DateTime MistakeDate,
     DateTime NextReviewDate,
-    int ReviewStage
+    int ReviewStage,
+    bool IsConfidence,
+    QuestionDto? Question
     );

@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using BuildingBlocks.Pagination;
 using EvoFast.Application.ReviewSessions.Commands.UpsertReviewSession;
+using EvoFast.Application.ReviewSessions.Queries.GetReviewSessions;
 using EvoFast.Application.ReviewSessions.Queries.GetTotalReviewSessions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +33,15 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> GetTotalReviewSession()
     {
         var command = new GetTotalReviewSessionQuery();
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpGet]
+    [EndpointSummary("Get Review Sessions w/ Pagination")]
+    public async Task<ActionResult> GetReviewSessions([FromQuery] PaginationRequest paginationRequest)
+    {
+        var command = new GetReviewSessionsQuery(paginationRequest);
         var result = await sender.Send(command);
         return Ok(result);
     }
