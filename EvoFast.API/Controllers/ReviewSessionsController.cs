@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using BuildingBlocks.Pagination;
+using EvoFast.Application.ReviewSessions.Commands.CreateReviewSession;
+using EvoFast.Application.ReviewSessions.Commands.UpdateConfidenceReviewSession;
 using EvoFast.Application.ReviewSessions.Commands.UpsertReviewSession;
 using EvoFast.Application.ReviewSessions.Queries.GetReviewSessions;
 using EvoFast.Application.ReviewSessions.Queries.GetTotalReviewSessions;
@@ -15,6 +17,20 @@ namespace EvoFast.API.Controllers;
 public class ReviewSessionsController(ISender sender) : ControllerBase
 {
     [HttpPost]
+    [EndpointSummary("Create Review Session")]
+    public async Task<ActionResult> CreateReviewSession([FromBody] CreateReviewSessionRequest model)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new CreateReviewSessionCommand(model, Guid.Parse(userId));
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpPost("Upsert")]
     [EndpointSummary("Upsert Review Session")]
     public async Task<ActionResult> UpsertReviewSession([FromBody] UpsertReviewSessionRequest model)
     {
@@ -22,6 +38,20 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
         if (userId != null)
         {
             var command = new UpsertReviewSessionCommand(model, Guid.Parse(userId));
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpPut("Confidence")]
+    [EndpointSummary("Update Confidence Review Session")]
+    public async Task<ActionResult> UpdateConfidenceReviewSession([FromBody] UpdateConfidenceReviewSessionRequest model)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new UpdateConfidenceReviewSessionCommand(model, Guid.Parse(userId));
             var result = await sender.Send(command);
             return Ok(result);
         }

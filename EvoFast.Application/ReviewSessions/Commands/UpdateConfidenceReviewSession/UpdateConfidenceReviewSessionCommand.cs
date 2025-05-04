@@ -1,0 +1,7 @@
+using EvoFast.Application.Dtos;
+
+namespace EvoFast.Application.ReviewSessions.Commands.UpdateConfidenceReviewSession;
+
+public record UpdateConfidenceReviewSessionCommand(UpdateConfidenceReviewSessionRequest UpdateConfidenceReviewSessionRequest, Guid UserId) : ICommand<UpdateConfidenceReviewSessionResult>;
+public record UpdateConfidenceReviewSessionRequest(Guid QuestionId, bool IsConfidence);
+public record UpdateConfidenceReviewSessionResult(ReviewSessionDto ReviewSessionDto);
