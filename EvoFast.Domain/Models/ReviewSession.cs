@@ -41,7 +41,7 @@ public class ReviewSession : Entity<Guid>
         }
     }
     
-    private void SetConfidence(bool isConfidence)
+    public void SetConfidence(bool isConfidence)
     {
         IsConfidence = isConfidence;
 
@@ -56,7 +56,7 @@ public class ReviewSession : Entity<Guid>
         }
     }
     
-    private void UpdateReviewSession()
+    public void UpdateReviewSession()
     {
         ReviewStage += 1;
         if (ReviewStage == 1)
