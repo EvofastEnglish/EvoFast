@@ -44,5 +44,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<WordSetCategory> WordSetCategories => Set<WordSetCategory>();
     public DbSet<Conversation> Conversations => Set<Conversation>();
     public DbSet<Message> Messages => Set<Message>();
+    public DbSet<ReviewSession> ReviewSessions => Set<ReviewSession>();
 
 }
