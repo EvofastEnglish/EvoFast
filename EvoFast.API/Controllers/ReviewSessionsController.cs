@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using EvoFast.Application.ReviewSessions.Commands.UpsertReviewSession;
+using EvoFast.Application.ReviewSessions.Queries.GetTotalReviewSessions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,5 +24,14 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
             return Ok(result);
         }
         return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpGet("Total")]
+    [EndpointSummary("Get Total Review Sessions")]
+    public async Task<ActionResult> GetTotalReviewSession()
+    {
+        var command = new GetTotalReviewSessionQuery();
+        var result = await sender.Send(command);
+        return Ok(result);
     }
 }
