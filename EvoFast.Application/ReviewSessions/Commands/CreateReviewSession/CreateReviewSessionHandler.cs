@@ -27,7 +27,7 @@ public class CreateReviewSessionCommandCommandValidator : AbstractValidator<Crea
     public CreateReviewSessionCommandCommandValidator()
     {
         RuleFor(x => x.CreateReviewSessionRequest.QuestionId).NotEmpty().WithMessage("QuestionId is required.");
-        RuleFor(x => x.CreateReviewSessionRequest.IsCorrect).NotEmpty().WithMessage("IsCorrect is required.");
+        RuleFor(x => x.CreateReviewSessionRequest.IsCorrect).NotNull().WithMessage("IsCorrect is required.");
 
     }
 }
