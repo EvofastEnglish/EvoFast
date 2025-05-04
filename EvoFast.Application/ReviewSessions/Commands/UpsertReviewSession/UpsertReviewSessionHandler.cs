@@ -24,6 +24,10 @@ public class UpsertReviewSessionHandler(IApplicationDbContext dbContext)
                 reviewSession.SetConfidence((bool)command.ReviewSessionRequest.IsConfidence);
             }
             reviewSession.UpdateReviewSession();
+            if (reviewSession.IsDeleted)
+            {
+                dbContext.ReviewSessions.Remove(reviewSession);
+            }
         }
         await dbContext.SaveChangesAsync(cancellationToken);
         return new UpsertReviewSessionResult(reviewSession.Adapt<ReviewSessionDto>());
