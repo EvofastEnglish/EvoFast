@@ -30,7 +30,7 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
         return BadRequest("User ID is missing in the token");
     }
     
-    [HttpPost("Upsert")]
+    [HttpPut("Upsert")]
     [EndpointSummary("Upsert Review Session")]
     public async Task<ActionResult> UpsertReviewSession([FromBody] UpsertReviewSessionRequest model)
     {
