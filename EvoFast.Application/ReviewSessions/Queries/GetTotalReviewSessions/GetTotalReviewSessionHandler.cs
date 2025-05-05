@@ -8,7 +8,7 @@ public class GetTotalReviewSessionHandler(IApplicationDbContext dbContext)
 {
     public async Task<GetTotalReviewSessionResult> Handle(GetTotalReviewSessionQuery query, CancellationToken cancellationToken)
     {
-        var total = await dbContext.ReviewSessions.CountAsync(cancellationToken: cancellationToken);
+        var total = await dbContext.ReviewSessions.CountAsync(r => r.NextReviewDate <= DateTime.UtcNow ,cancellationToken: cancellationToken);
         return new GetTotalReviewSessionResult(total);
     }
 }
