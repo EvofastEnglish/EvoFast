@@ -27,7 +27,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         builder.Entity<WordSetAttempt>()
             .HasQueryFilter(c => c.UserId == _currentUserId);
         builder.Entity<ReviewSession>()
-            .HasQueryFilter(c => c.UserId == _currentUserId && c.NextReviewDate <= DateTime.UtcNow);
+            .HasQueryFilter(c => c.UserId == _currentUserId);
     }
     
     private Guid GetCurrentUserId(IHttpContextAccessor httpContextAccessor)

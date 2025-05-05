@@ -11,7 +11,7 @@ public class CreateReviewSessionHandler(IApplicationDbContext dbContext)
     public async Task<CreateReviewSessionResult> Handle(CreateReviewSessionCommand command, CancellationToken cancellationToken)
     {
         var reviewSession = dbContext.ReviewSessions
-            .FirstOrDefault(r => r.UserId == command.UserId && r.QuestionId == command.CreateReviewSessionRequest.QuestionId);
+            .FirstOrDefault(r => r.QuestionId == command.CreateReviewSessionRequest.QuestionId);
         if (reviewSession == null)
         {
             reviewSession = new ReviewSession(command.UserId, command.CreateReviewSessionRequest.QuestionId, command.CreateReviewSessionRequest.IsCorrect);

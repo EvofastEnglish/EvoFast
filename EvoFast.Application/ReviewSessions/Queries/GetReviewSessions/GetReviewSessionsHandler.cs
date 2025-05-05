@@ -14,7 +14,7 @@ public class GetReviewSessionsHandler(IApplicationDbContext dbContext)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var baseQuery = dbContext.ReviewSessions;
+        var baseQuery = dbContext.ReviewSessions.Where(r => r.NextReviewDate <= DateTime.UtcNow);
 
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
 

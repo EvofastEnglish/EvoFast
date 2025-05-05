@@ -11,7 +11,7 @@ public class UpdateConfidenceReviewSessionHandler(IApplicationDbContext dbContex
     public async Task<UpdateConfidenceReviewSessionResult> Handle(UpdateConfidenceReviewSessionCommand command, CancellationToken cancellationToken)
     {
         var reviewSession = dbContext.ReviewSessions
-            .FirstOrDefault(r => r.UserId == command.UserId && r.QuestionId == command.UpdateConfidenceReviewSessionRequest.QuestionId);
+            .FirstOrDefault(r => r.QuestionId == command.UpdateConfidenceReviewSessionRequest.QuestionId);
         if (reviewSession == null)
         {
             throw new NotFoundException("ReviewSession");

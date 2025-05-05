@@ -11,7 +11,7 @@ public class UpsertReviewSessionHandler(IApplicationDbContext dbContext)
     public async Task<UpsertReviewSessionResult> Handle(UpsertReviewSessionCommand command, CancellationToken cancellationToken)
     {
         var reviewSession = dbContext.ReviewSessions
-            .FirstOrDefault(r => r.UserId == command.UserId && r.QuestionId == command.ReviewSessionRequest.QuestionId);
+            .FirstOrDefault(r => r.QuestionId == command.ReviewSessionRequest.QuestionId);
         if (reviewSession == null)
         {
             throw new NotFoundException("ReviewSession");

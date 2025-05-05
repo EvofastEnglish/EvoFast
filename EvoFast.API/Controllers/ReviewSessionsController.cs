@@ -34,28 +34,18 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
     [EndpointSummary("Upsert Review Session")]
     public async Task<ActionResult> UpsertReviewSession([FromBody] UpsertReviewSessionRequest model)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId != null)
-        {
-            var command = new UpsertReviewSessionCommand(model, Guid.Parse(userId));
-            var result = await sender.Send(command);
-            return Ok(result);
-        }
-        return BadRequest("User ID is missing in the token");
+        var command = new UpsertReviewSessionCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
     }
     
     [HttpPut("Confidence")]
     [EndpointSummary("Update Confidence Review Session")]
     public async Task<ActionResult> UpdateConfidenceReviewSession([FromBody] UpdateConfidenceReviewSessionRequest model)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (userId != null)
-        {
-            var command = new UpdateConfidenceReviewSessionCommand(model, Guid.Parse(userId));
-            var result = await sender.Send(command);
-            return Ok(result);
-        }
-        return BadRequest("User ID is missing in the token");
+        var command = new UpdateConfidenceReviewSessionCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
     }
     
     [HttpGet("Total")]
