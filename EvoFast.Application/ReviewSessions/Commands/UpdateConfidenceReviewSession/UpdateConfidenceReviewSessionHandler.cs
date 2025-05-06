@@ -26,7 +26,7 @@ public class UpdateConfidenceReviewSessionHandler(IApplicationDbContext dbContex
         public UpdateConfidenceReviewSessionCommandValidator()
         {
             RuleFor(x => x.UpdateConfidenceReviewSessionRequest.QuestionId).NotEmpty().WithMessage("QuestionId is required.");
-            RuleFor(x => x.UpdateConfidenceReviewSessionRequest.IsConfidence).NotEmpty().WithMessage("IsConfidence is required.");
+            RuleFor(x => x.UpdateConfidenceReviewSessionRequest.IsConfidence).NotNull().WithMessage("IsConfidence is required.");
 
         }
     }
