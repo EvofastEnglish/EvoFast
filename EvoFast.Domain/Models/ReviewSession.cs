@@ -52,7 +52,7 @@ public class ReviewSession : Entity<Guid>
         else
         {
             ReviewStage = 0;
-            NextReviewDate = MistakeDate.AddDays(1);
+            NextReviewDate = DateTime.UtcNow.AddDays(1);
         }
     }
     
