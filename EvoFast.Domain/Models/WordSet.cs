@@ -9,6 +9,8 @@ public class WordSet : Entity<Guid>
     public long NumberId { get; set; }
     public virtual ICollection<Question>? Questions { get; set; }
     public virtual ICollection<WordSetCategory>? WordSetCategories { get; set; }
+    public string? Industry { get; set; }
+    public string? JobRole { get; set; }
     public static WordSet Create(Guid wordSetId, long numberId)
     {
         var wordSet = new WordSet { Id = wordSetId, NumberId = numberId };

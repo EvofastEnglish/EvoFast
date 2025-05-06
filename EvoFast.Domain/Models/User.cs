@@ -11,6 +11,8 @@ public class User : Entity<Guid>
     public string? LastName { get; set; }
     
     public string? FcmToken { get; set; }
+    public string? Industry { get; set; }
+    public string? JobRole { get; set; }
     public static User Create(Guid id, string email, string username, string? firstName, string? lastName)
     {
         var user = new User
