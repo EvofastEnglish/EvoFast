@@ -47,5 +47,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Conversation> Conversations => Set<Conversation>();
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<ReviewSession> ReviewSessions => Set<ReviewSession>();
-
+    public DbSet<AiTest> AiTests => Set<AiTest>();
+    public DbSet<AiTestSection> AiTestSections => Set<AiTestSection>();
+    public DbSet<AiTestSectionQuestion> AiTestSectionQuestions => Set<AiTestSectionQuestion>();
 }
