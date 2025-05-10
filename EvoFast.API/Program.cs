@@ -7,6 +7,12 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Map OpenAI API Key to environment variable (optional)
+var openAiApiKey = builder.Configuration["OpenAiSettings:ApiKey"];
+if (!string.IsNullOrEmpty(openAiApiKey))
+{
+    Environment.SetEnvironmentVariable("OPENAI_API_KEY", openAiApiKey);
+}
 // Add services to the container.
 
 builder.Services.AddControllers();

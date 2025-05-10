@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using BuildingBlocks.Pagination;
+using EvoFast.Application.AiTests.Commands.StartAiTest;
 using EvoFast.Application.AiTests.Queries.GetAiTests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,5 +20,19 @@ public class AiTestsController(ISender sender) : ControllerBase
         var command = new GetAiTestsQuery(paginationRequest);
         var result = await sender.Send(command);
         return Ok(result);
+    }
+    
+    [HttpPost("Start")]
+    [EndpointSummary("Start AiTest")]
+    public async Task<ActionResult> StartAiTest([FromBody] StartAiTestRequest request)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId != null)
+        {
+            var command = new StartAiTestCommand(request, Guid.Parse(userId));
+            var result = await sender.Send(command);
+            return Ok(result);
+        }
+        return BadRequest("User ID is missing in the token");
     }
 }
