@@ -20,5 +20,6 @@ public interface IApplicationDbContext
     public DbSet<AiTestSection> AiTestSections { get;}
     public DbSet<AiTestSectionQuestion> AiTestSectionQuestions { get;}
     public DbSet<AiTestResult> AiTestResults { get;}
+    public DbSet<AiTestSectionResult> AiTestSectionResults { get;}
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
