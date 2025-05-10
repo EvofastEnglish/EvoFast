@@ -14,15 +14,4 @@ public class AiTestSection : Entity<Guid>
     public string EvaluationCriteria { get; set; }
     public string Description { get; set; }
     public string ChatPrompt { get; set; }
-    
-    public AiTestSection(Guid aiTestId, int sectionOrder, string title, int totalQuestion, string evaluationCriteria, string description, string chatPrompt)
-    {
-        AiTestId = aiTestId;
-        SectionOrder = sectionOrder;
-        Title = title;
-        TotalQuestion = totalQuestion;
-        EvaluationCriteria = evaluationCriteria;
-        Description = description;
-        ChatPrompt = chatPrompt;
-    }
 }
