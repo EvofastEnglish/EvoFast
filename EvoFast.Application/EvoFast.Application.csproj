@@ -19,7 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="AiTestSections\Queries\" />
       <Folder Include="Users\EventHandlers\Domain\" />
     </ItemGroup>
 
