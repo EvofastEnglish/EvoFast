@@ -19,24 +19,31 @@ public class StartAiTestSectionHandler(
             .Include(ait => ait.AiTest)
             .ThenInclude(ai => ai.AiTestResults)
             .FirstOrDefault(a => a.Id == command.StartAiTestSectionRequest.AiTestSectionId);
+        
         if (aiTestSection == null)
         {
             throw new NotFoundException("AiTestSection", command.StartAiTestSectionRequest.AiTestSectionId);
         }
-
-        var evaluation = await client.GetResponseAsync(
-        [
-            new ChatMessage(ChatRole.System, aiTestSection.ChatPrompt),
-        ], cancellationToken: cancellationToken);
         
-        var aiTestSectionResult = new AiTestSectionResult
+        var aiTestSectionResult = dbContext.AiTestSectionResults
+            .FirstOrDefault(a => a.AiTestSectionId == aiTestSection.Id && a.AiTestResultId == aiTestSection.AiTest.AiTestResults.First().Id);
+
+        if (aiTestSectionResult == null)
         {
-            AiTestSectionId = aiTestSection.Id,
-            AiTestResultId = aiTestSection.AiTest.AiTestResults.First().Id,
-            Evaluation = evaluation.Text
-        };
-        dbContext.AiTestSectionResults.Add(aiTestSectionResult);
-        await dbContext.SaveChangesAsync(cancellationToken);
+            var evaluation = await client.GetResponseAsync(
+            [
+                new ChatMessage(ChatRole.System, aiTestSection.ChatPrompt),
+            ], cancellationToken: cancellationToken);
+        
+            aiTestSectionResult = new AiTestSectionResult
+            {
+                AiTestSectionId = aiTestSection.Id,
+                AiTestResultId = aiTestSection.AiTest.AiTestResults.First().Id,
+                Evaluation = evaluation.Text
+            };
+            dbContext.AiTestSectionResults.Add(aiTestSectionResult);
+            await dbContext.SaveChangesAsync(cancellationToken);   
+        }
         var aiTestSectionResultDto = aiTestSectionResult.Adapt<AiTestSectionResultDto>();
         return new StartAiTestSectionResult(aiTestSectionResultDto);    
     }
