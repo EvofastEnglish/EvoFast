@@ -28,6 +28,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .HasQueryFilter(c => c.UserId == _currentUserId);
         builder.Entity<ReviewSession>()
             .HasQueryFilter(c => c.UserId == _currentUserId);
+        builder.Entity<AiTestResult>()
+            .HasQueryFilter(c => c.UserId == _currentUserId);
     }
     
     private Guid GetCurrentUserId(IHttpContextAccessor httpContextAccessor)
