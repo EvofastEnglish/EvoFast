@@ -79,10 +79,38 @@ public class InitalDataAi
     {
         new AiTestSectionQuestion
         {
+            Id = Guid.Parse("9ac4c9e4-3d84-49a3-94a2-9d4bcd2d3809"),
             AiTestSectionId = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
-            Title = "How do you prepare for a meeting？",
+            Title = "How do you prepare for a meeting",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
+        },
+        
+        new AiTestSectionQuestion
+        {
+            Id = Guid.Parse("45896e42-5e3b-476e-9202-8995d89e3272"),
+            AiTestSectionId = Guid.Parse("d3d2e7f1-c443-41f2-ae32-4e32d5fd4177"),
+            Title = "You are unable to attend the meeting scheduled for 3 p.m. tomorrow.\nPlease explain the reason to your manager and politely ask if the meeting can be rescheduled.",
+            ThinkingTimeSeconds = 30,
+            RecordingTimeSeconds = 60,
+        },
+        
+        new AiTestSectionQuestion
+        {
+            Id = Guid.Parse("c9440ae5-38e4-498c-8608-9de2376f3f01"),
+            AiTestSectionId = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
+            Title = "Do you prefer working in the office or remotely?",
+            ThinkingTimeSeconds = 0,
+            RecordingTimeSeconds = 30,
+        },
+        
+        new AiTestSectionQuestion
+        {
+            Id = Guid.Parse("05c99cf8-ea9b-4f9d-98c9-0c7298f9b508"),
+            AiTestSectionId = Guid.Parse("61ac3c86-e4e7-4c6c-a48e-57b7bc84bb9a"),
+            Title = "What do you think is important for good teamwork?\nExplain your opinion, and include an example if possible.",
+            ThinkingTimeSeconds = 30,
+            RecordingTimeSeconds = 60,
         }
     };
 }
