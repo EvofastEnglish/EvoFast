@@ -35,11 +35,11 @@ public class CompleteAiTestSectionQuestionHandler(
             new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
         };
         
-        var previousAiTestSectionResults = aiTestSectionQuestion.AiTestSection.AiTestSectionResults;
-
+        var previousAiTestSectionResults = aiTestSectionQuestion.AiTestSection.AiTestSectionResults.Where(ats => ats.SectionOrder <= aiTestSectionQuestion.AiTestSection.SectionOrder);
+        
         BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
         
-        var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, "ja");
+        var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
         
         chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
 
@@ -78,9 +78,12 @@ public class CompleteAiTestSectionQuestionHandler(
             messages.Add(new ChatMessage(ChatRole.User, result.ChatPrompt));
             messages.Add(new ChatMessage(ChatRole.Assistant, result.Evaluation));
 
-            foreach (var questionResult in result.AiTestSectionQuestionResults)
-            {
-                messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
+            if (result.AiTestSectionQuestionResults != null)
+            {   
+                foreach (var questionResult in result.AiTestSectionQuestionResults)
+                {
+                    messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
+                }
             }
         }
 

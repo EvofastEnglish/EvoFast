@@ -5,5 +5,5 @@ namespace EvoFast.Application.AiTestSectionQuestions.Commands.CompleteAiTestSect
 
 public record CompleteAiTestSectionQuestionCommand(CompleteAiTestSectionQuestionRequest CompleteAiTestSectionQuestionRequest) : ICommand<CompleteAiTestSectionQuestionResult>;
 
-public record CompleteAiTestSectionQuestionRequest(Guid AiTestSectionQuestionId, IFormFile AudioFile);
+public record CompleteAiTestSectionQuestionRequest(Guid AiTestSectionQuestionId, IFormFile AudioFile, string Language);
 public record CompleteAiTestSectionQuestionResult(AiTestSectionQuestionResultDto AiTestSectionQuestionResult);
