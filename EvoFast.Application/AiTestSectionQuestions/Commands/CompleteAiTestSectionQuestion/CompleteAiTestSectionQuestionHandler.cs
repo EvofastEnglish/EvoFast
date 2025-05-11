@@ -19,6 +19,7 @@ public class CompleteAiTestSectionQuestionHandler(
     {
         var aiTestSectionQuestion = dbContext.AiTestSectionQuestions
             .Include(q => q.AiTestSection).ThenInclude(ats => ats.AiTest).ThenInclude(at => at.AiTestResults)
+            .Include(q => q.AiTestSection).ThenInclude(ats => ats.AiTestSectionResults)
             .Include(q => q.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
             .FirstOrDefault(a => a.Id == command.CompleteAiTestSectionQuestionRequest.AiTestSectionQuestionId);
         
@@ -34,7 +35,7 @@ public class CompleteAiTestSectionQuestionHandler(
             new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
         };
         
-        var previousAiTestSectionResults = aiTestSectionQuestion.AiTestSection.AiTestSectionResults.Where(ats => ats.SectionOrder < aiTestSectionQuestion.AiTestSection.SectionOrder);
+        var previousAiTestSectionResults = aiTestSectionQuestion.AiTestSection.AiTestSectionResults;
 
         BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
         
