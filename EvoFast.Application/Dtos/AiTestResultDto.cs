@@ -4,5 +4,6 @@ public record AiTestResultDto(
     Guid Id,
     Guid AiTestId,
     Guid UserId,
-    string Evaluation
+    string Evaluation,
+    string ChatPrompt
     );
