@@ -76,9 +76,12 @@ public class StartAiTestSectionHandler(
             messages.Add(new ChatMessage(ChatRole.User, result.ChatPrompt));
             messages.Add(new ChatMessage(ChatRole.Assistant, result.Evaluation));
 
-            foreach (var questionResult in result.AiTestSectionQuestionResults)
+            if (result.AiTestSectionQuestionResults != null)
             {
-                messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
+                foreach (var questionResult in result.AiTestSectionQuestionResults)
+                {
+                    messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
+                }
             }
         }
 
