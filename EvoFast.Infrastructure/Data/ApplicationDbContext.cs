@@ -54,5 +54,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AiTestSectionQuestion> AiTestSectionQuestions => Set<AiTestSectionQuestion>();
     public DbSet<AiTestResult> AiTestResults => Set<AiTestResult>();
     public DbSet<AiTestSectionResult> AiTestSectionResults => Set<AiTestSectionResult>();
+    public DbSet<AiTestSectionQuestionResult> AiTestSectionQuestionResults => Set<AiTestSectionQuestionResult>();
 
 }
