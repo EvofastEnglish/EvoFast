@@ -80,6 +80,15 @@ public class InitalDataAi
     {
         new AiTestSectionQuestion
         {
+            Id = Guid.Parse("9ac4c9e4-3d84-49a3-94a2-9d3dcb2d9874"),
+            AiTestSectionId = Guid.Parse("53e5b83d-b62e-4483-bbc4-2361cb9aa676"),
+            Title = "Introduce yourself",
+            ThinkingTimeSeconds = 0,
+            RecordingTimeSeconds = 30,
+        },
+        
+        new AiTestSectionQuestion
+        {
             Id = Guid.Parse("9ac4c9e4-3d84-49a3-94a2-9d4bcd2d3809"),
             AiTestSectionId = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
             Title = "How do you prepare for a meeting",
