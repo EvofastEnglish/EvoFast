@@ -16,8 +16,10 @@ public class StartAiTestSectionHandler(
     public async Task<StartAiTestSectionResult> Handle(StartAiTestSectionCommand command, CancellationToken cancellationToken)
     {
         var aiTestSection = dbContext.AiTestSections
-            .Include(ats => ats.AiTest).ThenInclude(at => at.AiTestResults)
-            .Include(ats => ats.AiTestSectionResults).ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
+            .Include(ats => ats.AiTest)
+            .ThenInclude(at => at.AiTestResults)
+            .ThenInclude(atr => atr.AiTestSectionResults)
+            .ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
             .FirstOrDefault(a => a.Id == command.StartAiTestSectionRequest.AiTestSectionId);
         
         if (aiTestSection == null)
@@ -38,7 +40,7 @@ public class StartAiTestSectionHandler(
                 new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
             };
         
-            var previousAiTestSectionResults = aiTestSection.AiTestSectionResults.Where(ats => ats.SectionOrder < aiTestSection.SectionOrder);
+            var previousAiTestSectionResults = aiTestResult.AiTestSectionResults.Where(ats => ats.SectionOrder < aiTestSection.SectionOrder);
         
             BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
 

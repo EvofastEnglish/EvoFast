@@ -18,9 +18,11 @@ public class CompleteAiTestSectionQuestionHandler(
     public async Task<CompleteAiTestSectionQuestionResult> Handle(CompleteAiTestSectionQuestionCommand command, CancellationToken cancellationToken)
     {
         var aiTestSectionQuestion = dbContext.AiTestSectionQuestions
-            .Include(q => q.AiTestSection).ThenInclude(ats => ats.AiTest).ThenInclude(at => at.AiTestResults)
-            .Include(q => q.AiTestSection).ThenInclude(ats => ats.AiTestSectionResults)
-            .Include(q => q.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
+            .Include(q => q.AiTestSection)
+            .ThenInclude(ats => ats.AiTest)
+            .ThenInclude(at => at.AiTestResults)
+            .ThenInclude(ats => ats.AiTestSectionResults)
+            .ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
             .FirstOrDefault(a => a.Id == command.CompleteAiTestSectionQuestionRequest.AiTestSectionQuestionId);
         
         if (aiTestSectionQuestion == null)
