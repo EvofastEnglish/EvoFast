@@ -4,5 +4,6 @@ public record AiTestSectionResultDto(
     Guid Id,
     Guid AiTestResultId,
     Guid AiTestSectionId,
-    string Evaluation
+    string Evaluation,
+    int SectionOrder
     );
