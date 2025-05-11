@@ -17,7 +17,7 @@ public class StartAiTestSectionHandler(
     {
         var aiTestSection = dbContext.AiTestSections
             .Include(ats => ats.AiTest).ThenInclude(at => at.AiTestResults)
-            .Include(ats => ats.AiTestSectionResults)
+            .Include(ats => ats.AiTestSectionResults).ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
             .FirstOrDefault(a => a.Id == command.StartAiTestSectionRequest.AiTestSectionId);
         
         if (aiTestSection == null)
@@ -35,10 +35,7 @@ public class StartAiTestSectionHandler(
         
         var previousAiTestSectionResults = aiTestSection.AiTestSectionResults.Where(ats => ats.SectionOrder < aiTestSection.SectionOrder);
         
-        foreach (var result in previousAiTestSectionResults)
-        {
-            chatMessages.AddRange(new ChatMessage(ChatRole.User, result.ChatPrompt), new ChatMessage(ChatRole.Assistant, result.Evaluation));
-        }
+        BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
 
         chatMessages.Add(new ChatMessage(ChatRole.User, aiTestSection.ChatPrompt));
         
@@ -71,4 +68,21 @@ public class StartAiTestSectionHandler(
         var aiTestSectionResultDto = aiTestSectionResult.Adapt<AiTestSectionResultDto>();
         return new StartAiTestSectionResult(aiTestSectionResultDto);    
     }
+    
+    private List<ChatMessage> BuildPreviousChatContext(IEnumerable<AiTestSectionResult> previousResults, List<ChatMessage> messages)
+    {
+        foreach (var result in previousResults.OrderBy(r => r.SectionOrder))
+        {
+            messages.Add(new ChatMessage(ChatRole.User, result.ChatPrompt));
+            messages.Add(new ChatMessage(ChatRole.Assistant, result.Evaluation));
+
+            foreach (var questionResult in result.AiTestSectionQuestionResults)
+            {
+                messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
+            }
+        }
+
+        return messages;
+    }
+
 }
