@@ -1,0 +1,9 @@
+using EvoFast.Application.Dtos;
+using Microsoft.AspNetCore.Http;
+
+namespace EvoFast.Application.AiTestSectionQuestions.Commands.CompleteAiTestSectionQuestion;
+
+public record CompleteAiTestSectionQuestionCommand(CompleteAiTestSectionQuestionRequest CompleteAiTestSectionQuestionRequest) : ICommand<CompleteAiTestSectionQuestionResult>;
+
+public record CompleteAiTestSectionQuestionRequest(Guid AiTestSectionQuestionId, IFormFile AudioFile);
+public record CompleteAiTestSectionQuestionResult(AiTestSectionQuestionResultDto AiTestSectionQuestionResult);

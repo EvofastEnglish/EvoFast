@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenAI.Audio;
 
 namespace EvoFast.Infrastructure;
 
@@ -17,6 +18,7 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("Database");
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        services.AddScoped<IWhisperService, WhisperService>();
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
