@@ -14,4 +14,5 @@ public class AiTestResult : Entity<Guid>
     public virtual User User { get; set; }
     
     public string Evaluation { get; set; }
+    public string ChatPrompt { get; set; }
 }

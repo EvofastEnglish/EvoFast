@@ -20,26 +20,33 @@ public class StartAiTestHandler(
         {
             throw new NotFoundException("AiTest", command.StartAiTestRequest.AiTestId);
         }
+        
+        var evaluation = await client.GetResponseAsync(
+        [
+            new ChatMessage(ChatRole.System, aiTest.ChatPromptStart),
+        ], cancellationToken: cancellationToken);
 
         var aiTestResult = dbContext.AiTestResults
             .FirstOrDefault(a => a.AiTestId == aiTest.Id);
         
         if (aiTestResult == null)
         {
-            var evaluation = await client.GetResponseAsync(
-            [
-                new ChatMessage(ChatRole.System, aiTest.ChatPromptStart),
-            ], cancellationToken: cancellationToken);
-        
             aiTestResult = new AiTestResult
             {
                 AiTestId = aiTest.Id,
                 UserId = command.UserId,
-                Evaluation = evaluation.Text
+                Evaluation = evaluation.Text,
+                ChatPrompt = aiTest.ChatPromptStart,
+                CreatedAt = DateTime.UtcNow,
             };
             dbContext.AiTestResults.Add(aiTestResult);
-            await dbContext.SaveChangesAsync(cancellationToken);   
         }
+        else
+        {
+            aiTestResult.Evaluation = evaluation.Text;
+            aiTestResult.LastModified = DateTime.UtcNow;
+        }
+        await dbContext.SaveChangesAsync(cancellationToken);
         var aiTestResultDto = aiTestResult.Adapt<AiTestResultDto>();
         return new StartAiTestResult(aiTestResultDto);
     }
