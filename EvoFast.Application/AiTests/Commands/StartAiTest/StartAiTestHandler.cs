@@ -44,6 +44,7 @@ public class StartAiTestHandler(
         else
         {
             aiTestResult.Evaluation = evaluation.Text;
+            aiTestResult.ChatPrompt = aiTest.ChatPromptStart;
             aiTestResult.LastModified = DateTime.UtcNow;
         }
         await dbContext.SaveChangesAsync(cancellationToken);
