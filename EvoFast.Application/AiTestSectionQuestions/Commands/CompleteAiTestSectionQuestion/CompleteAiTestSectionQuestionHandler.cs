@@ -41,7 +41,7 @@ public class CompleteAiTestSectionQuestionHandler(
                 new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
             };
         
-            var previousAiTestSectionResults = aiTestSectionQuestion.AiTestSection.AiTestSectionResults.Where(ats => ats.SectionOrder <= aiTestSectionQuestion.AiTestSection.SectionOrder);
+            var previousAiTestSectionResults = aiTestResult.AiTestSectionResults.Where(ats => ats.SectionOrder <= aiTestSectionQuestion.AiTestSection.SectionOrder);
         
             BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
         
