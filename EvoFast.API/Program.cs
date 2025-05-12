@@ -14,7 +14,7 @@ if (!string.IsNullOrEmpty(openAiApiKey))
     Environment.SetEnvironmentVariable("OPENAI_API_KEY", openAiApiKey);
 }
 // Add services to the container.
-
+builder.Services.AddCors(builder.Configuration["AllowedOrigins"]);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi("v1", options => { options.AddDocumentTransformer<BearerSecuritySchemeTransformer>(); });
@@ -22,7 +22,6 @@ builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices(builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
