@@ -14,7 +14,9 @@ public class GetAiTestHandler(IApplicationDbContext dbContext)
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
 
-        var baseQuery = dbContext.AiTests.Include(a => a.AiTestSections.OrderBy(s => s.SectionOrder));
+        var baseQuery = dbContext.AiTests
+            .Include(a => a.AiTestSections.OrderBy(s => s.SectionOrder))
+            .ThenInclude(s => s.AiTestSectionQuestions);
         
         var totalCount = await baseQuery.LongCountAsync(cancellationToken);
 

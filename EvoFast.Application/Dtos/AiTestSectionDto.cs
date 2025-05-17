@@ -7,5 +7,6 @@ public record AiTestSectionDto(
     string Title,
     int TotalQuestion,
     string EvaluationCriteria,
-    string Description
+    string Description,
+    List<AiTestSectionQuestionDto> Questions
     );
