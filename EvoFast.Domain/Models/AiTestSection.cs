@@ -15,5 +15,7 @@ public class AiTestSection : Entity<Guid>
     public string Description { get; set; }
     public string ChatPrompt { get; set; }
     public virtual ICollection<AiTestSectionResult> AiTestSectionResults { get; set; }
+    public virtual ICollection<AiTestSectionQuestion> AiTestSectionQuestions { get; set; }
+
 
 }

@@ -15,24 +15,31 @@ public class StartAiTestSectionHandler(
 {
     public async Task<StartAiTestSectionResult> Handle(StartAiTestSectionCommand command, CancellationToken cancellationToken)
     {
-        var aiTestSection = dbContext.AiTestSections
+        var section = dbContext.AiTestSections
+            .Include(ats => ats.AiTestSectionQuestions.Where(q => q.Id == command.StartAiTestSectionRequest.QuestionId))
             .Include(ats => ats.AiTest)
             .ThenInclude(at => at.AiTestResults)
             .ThenInclude(atr => atr.AiTestSectionResults)
             .ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
             .FirstOrDefault(a => a.Id == command.StartAiTestSectionRequest.AiTestSectionId);
         
-        if (aiTestSection == null)
+        if (section == null)
         {
             throw new NotFoundException("AiTestSection", command.StartAiTestSectionRequest.AiTestSectionId);
         }
         
-        var aiTestSectionResult = dbContext.AiTestSectionResults
-            .FirstOrDefault(a => a.AiTestSectionId == aiTestSection.Id && a.AiTestResultId == aiTestSection.AiTest.AiTestResults.First().Id);
-
-        if (aiTestSectionResult == null)
+        var question = section.AiTestSectionQuestions.FirstOrDefault(q => q.Id == command.StartAiTestSectionRequest.QuestionId);
+        if (question == null)
         {
-            var aiTestResult = aiTestSection.AiTest.AiTestResults.First();
+            throw new NotFoundException("Question", command.StartAiTestSectionRequest.QuestionId);
+        }
+        
+        var sectionResult = dbContext.AiTestSectionResults
+            .FirstOrDefault(a => a.AiTestSectionId == section.Id && a.AiTestResultId == section.AiTest.AiTestResults.First().Id);
+
+        if (sectionResult == null)
+        {
+            var aiTestResult = section.AiTest.AiTestResults.First();
 
             var chatMessages = new List<ChatMessage>
             {
@@ -40,27 +47,27 @@ public class StartAiTestSectionHandler(
                 new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
             };
         
-            var previousAiTestSectionResults = aiTestResult.AiTestSectionResults.Where(ats => ats.SectionOrder < aiTestSection.SectionOrder);
+            var previousAiTestSectionResults = aiTestResult.AiTestSectionResults.Where(ats => ats.SectionOrder < section.SectionOrder);
         
             BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
 
-            chatMessages.Add(new ChatMessage(ChatRole.User, aiTestSection.ChatPrompt));
+            chatMessages.Add(new ChatMessage(ChatRole.User, section.ChatPrompt));
         
             var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
             
-            aiTestSectionResult = new AiTestSectionResult
+            sectionResult = new AiTestSectionResult
             {
-                AiTestSectionId = aiTestSection.Id,
+                AiTestSectionId = section.Id,
                 AiTestResultId = aiTestResult.Id,
                 Evaluation = evaluation.Text,
-                ChatPrompt = aiTestSection.ChatPrompt,
-                SectionOrder = aiTestSection.SectionOrder,
+                ChatPrompt = section.ChatPrompt.Replace("{{QUESTION}}", question.Title),
+                SectionOrder = section.SectionOrder,
                 CreatedAt = DateTime.UtcNow,
             };
-            dbContext.AiTestSectionResults.Add(aiTestSectionResult);
+            dbContext.AiTestSectionResults.Add(sectionResult);
             await dbContext.SaveChangesAsync(cancellationToken);   
         }
-        var aiTestSectionResultDto = aiTestSectionResult.Adapt<AiTestSectionResultDto>();
+        var aiTestSectionResultDto = sectionResult.Adapt<AiTestSectionResultDto>();
         return new StartAiTestSectionResult(aiTestSectionResultDto);    
     }
     
