@@ -3,6 +3,7 @@ using BuildingBlocks.Pagination;
 using EvoFast.Application.AiTests.Commands.StartAiTest;
 using EvoFast.Application.AiTests.Queries.GetAiTestResult;
 using EvoFast.Application.AiTests.Queries.GetAiTests;
+using EvoFast.Application.AiTests.Queries.GetChatMessageBySessionId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,5 +45,14 @@ public class AiTestsController(ISender sender) : ControllerBase
             return Ok(result);
         }
         return BadRequest("User ID is missing in the token");
+    }
+    
+    [HttpGet("Session/{sessionId}/ChatMessage")]
+    [EndpointSummary("Get ChatMessage by SessionId")]
+    public async Task<ActionResult> GetChatMessageBySessionId(Guid sessionId)
+    {
+        var command = new GetChatMessageBySessionIdQuery(sessionId);
+        var result = await sender.Send(command);
+        return Ok(result);
     }
 }

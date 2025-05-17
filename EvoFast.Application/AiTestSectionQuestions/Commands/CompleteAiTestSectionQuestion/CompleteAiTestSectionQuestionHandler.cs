@@ -17,71 +17,71 @@ public class CompleteAiTestSectionQuestionHandler(
 {
     public async Task<CompleteAiTestSectionQuestionResult> Handle(CompleteAiTestSectionQuestionCommand command, CancellationToken cancellationToken)
     {
-        var aiTestSectionQuestion = dbContext.AiTestSectionQuestions
-            .Include(q => q.AiTestSection)
-            .ThenInclude(ats => ats.AiTest)
-            .ThenInclude(at => at.AiTestResults)
-            .ThenInclude(ats => ats.AiTestSectionResults)
-            .ThenInclude(atsr => atsr.AiTestSectionQuestionResults.OrderBy(r => r.CreatedAt))
-            .FirstOrDefault(a => a.Id == command.CompleteAiTestSectionQuestionRequest.AiTestSectionQuestionId);
-        
-        if (aiTestSectionQuestion == null)
+        var section = dbContext.AiTestSections
+            .FirstOrDefault(t => t.Id == command.CompleteAiTestSectionQuestionRequest.AiTestSectionId);
+        if (section == null)
         {
-            throw new NotFoundException("AiTestSectionQuestion", command.CompleteAiTestSectionQuestionRequest.AiTestSectionQuestionId);
+            throw new NotFoundException("AiTestSection", command.CompleteAiTestSectionQuestionRequest.AiTestSectionId);
         }
-        var aiTestSectionQuestionResult = dbContext.AiTestSectionQuestionResults
-            .FirstOrDefault(a => a.AiTestSectionQuestionId == aiTestSectionQuestion.Id && a.AiTestSectionResultId == aiTestSectionQuestion.AiTestSection.AiTestSectionResults.First().Id);
-        
-        if (aiTestSectionQuestionResult == null)
-        {
-            var aiTestResult = aiTestSectionQuestion.AiTestSection.AiTest.AiTestResults.First();
-            var chatMessages = new List<ChatMessage>
-            {
-                new ChatMessage(ChatRole.System, aiTestResult.ChatPrompt),
-                new ChatMessage(ChatRole.Assistant, aiTestResult.Evaluation),
-            };
-        
-            var previousAiTestSectionResults = aiTestResult.AiTestSectionResults.Where(ats => ats.SectionOrder <= aiTestSectionQuestion.AiTestSection.SectionOrder);
-        
-            BuildPreviousChatContext(previousAiTestSectionResults, chatMessages);
-        
-            var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
-        
-            chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
 
-            var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
-            
-            aiTestSectionQuestionResult = new AiTestSectionQuestionResult
-            {
-                AiTestSectionQuestionId = aiTestSectionQuestion.Id,
-                AiTestSectionResultId = aiTestSectionQuestion.AiTestSection.AiTestSectionResults.First().Id,
-                Evaluation = evaluation.Text,
-                ChatPrompt = aiTestSectionQuestion.Title,
-                CreatedAt = DateTime.UtcNow,
-            };
-            dbContext.AiTestSectionQuestionResults.Add(aiTestSectionQuestionResult);
-            await dbContext.SaveChangesAsync(cancellationToken);   
+        var question = dbContext.AiTestSectionQuestions
+            .FirstOrDefault(q =>
+                q.Id == command.CompleteAiTestSectionQuestionRequest.QuestionId &&
+                q.AiTestSectionId == command.CompleteAiTestSectionQuestionRequest.AiTestSectionId);
+
+        if (question == null)
+        {
+            throw new NotFoundException("Question", command.CompleteAiTestSectionQuestionRequest.QuestionId);
         }
-        var aiTestSectionQuestionResultDto = aiTestSectionQuestionResult.Adapt<AiTestSectionQuestionResultDto>();
-        return new CompleteAiTestSectionQuestionResult(aiTestSectionQuestionResultDto);      
+
+        var session = dbContext.AiTestSessions
+            .Include(_ => _.AiTestChatMessages)
+            .FirstOrDefault(s =>
+                s.Id == command.CompleteAiTestSectionQuestionRequest.AiTestSessionId && s.AiTestId == section.AiTestId);
+
+        if (session == null)
+        {
+            throw new NotFoundException("AiTestSession", command.CompleteAiTestSectionQuestionRequest.AiTestSectionId);
+        }
+        
+        var chatMessages = session.AiTestChatMessages
+            .OrderBy(m => m.CreatedAt)
+            .Select(m => new ChatMessage(MapRole(m.Role), m.Content))
+            .ToList();
+
+        var questPrompt = section.ChatPrompt.Replace("{{QUESTION}}", question.Title);
+        chatMessages.Add(new ChatMessage(ChatRole.User, questPrompt));
+        
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,
+            questPrompt));
+        var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
+
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
+            evaluation.Text));
+
+        #region Audio
+        
+        var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
+        chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
+        var evaluationAudio = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
+            evaluationAudio.Text));
+        
+        #endregion
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+        var messageDtos = session.AiTestChatMessages.Adapt<List<AiTestChatMessageDto>>();
+        return new CompleteAiTestSectionQuestionResult(messageDtos);      
     }
     
-    private List<ChatMessage> BuildPreviousChatContext(IEnumerable<AiTestSectionResult> previousResults, List<ChatMessage> messages)
+    static ChatRole MapRole(string dbRole)
     {
-        foreach (var result in previousResults.OrderBy(r => r.SectionOrder))
+        return dbRole?.ToLower() switch
         {
-            messages.Add(new ChatMessage(ChatRole.User, result.ChatPrompt));
-            messages.Add(new ChatMessage(ChatRole.Assistant, result.Evaluation));
-
-            if (result.AiTestSectionQuestionResults != null)
-            {   
-                foreach (var questionResult in result.AiTestSectionQuestionResults)
-                {
-                    messages.Add(new ChatMessage(ChatRole.Assistant, questionResult.Evaluation));
-                }
-            }
-        }
-
-        return messages;
+            "user" => ChatRole.User,
+            "assistant" => ChatRole.Assistant,
+            "system" => ChatRole.System,
+            _ => ChatRole.User
+        };
     }
 }

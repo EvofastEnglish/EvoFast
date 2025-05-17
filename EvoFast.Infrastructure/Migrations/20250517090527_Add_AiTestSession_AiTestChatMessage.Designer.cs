@@ -3,6 +3,7 @@ using System;
 using EvoFast.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EvoFast.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250517090527_Add_AiTestSession_AiTestChatMessage")]
+    partial class Add_AiTestSession_AiTestChatMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AiTests", (string)null);
+                    b.ToTable("AiTests");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.AiTestChatMessage", b =>
@@ -98,7 +101,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("AiTestSessionId");
 
-                    b.ToTable("AiTestChatMessages", (string)null);
+                    b.ToTable("AiTestChatMessages");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.AiTestResult", b =>
@@ -140,7 +143,7 @@ namespace EvoFast.Infrastructure.Migrations
                     b.HasIndex("UserId", "AiTestId")
                         .IsUnique();
 
-                    b.ToTable("AiTestResults", (string)null);
+                    b.ToTable("AiTestResults");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.AiTestSection", b =>
@@ -190,7 +193,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("AiTestId");
 
-                    b.ToTable("AiTestSections", (string)null);
+                    b.ToTable("AiTestSections");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.AiTestSectionQuestion", b =>
@@ -231,7 +234,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("AiTestSectionId");
 
-                    b.ToTable("AiTestSectionQuestions", (string)null);
+                    b.ToTable("AiTestSectionQuestions");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.AiTestSectionQuestionResult", b =>
@@ -360,7 +363,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AiTestSessions", (string)null);
+                    b.ToTable("AiTestSessions");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.Answer", b =>
@@ -399,7 +402,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.Category", b =>
@@ -426,7 +429,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.Conversation", b =>
@@ -469,7 +472,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Conversations", (string)null);
+                    b.ToTable("Conversations");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.Message", b =>
@@ -505,7 +508,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("ConversationId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.Question", b =>
@@ -545,7 +548,7 @@ namespace EvoFast.Infrastructure.Migrations
 
                     b.HasIndex("WordSetId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("EvoFast.Domain.Models.QuestionAttempt", b =>

@@ -20,35 +20,23 @@ public class StartAiTestHandler(
         {
             throw new NotFoundException("AiTest", command.StartAiTestRequest.AiTestId);
         }
-        
+
+        var aiTestSession = new AiTestSession(aiTest.Id, command.UserId);
+        dbContext.AiTestSessions.Add(aiTestSession);
+
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(aiTestSession.Id, ChatRole.System.Value,
+            aiTest.ChatPromptStart));
+
         var evaluation = await client.GetResponseAsync(
         [
             new ChatMessage(ChatRole.System, aiTest.ChatPromptStart),
         ], cancellationToken: cancellationToken);
-
-        var aiTestResult = dbContext.AiTestResults
-            .FirstOrDefault(a => a.AiTestId == aiTest.Id);
         
-        if (aiTestResult == null)
-        {
-            aiTestResult = new AiTestResult
-            {
-                AiTestId = aiTest.Id,
-                UserId = command.UserId,
-                Evaluation = evaluation.Text,
-                ChatPrompt = aiTest.ChatPromptStart,
-                CreatedAt = DateTime.UtcNow,
-            };
-            dbContext.AiTestResults.Add(aiTestResult);
-        }
-        else
-        {
-            aiTestResult.Evaluation = evaluation.Text;
-            aiTestResult.ChatPrompt = aiTest.ChatPromptStart;
-            aiTestResult.LastModified = DateTime.UtcNow;
-        }
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(aiTestSession.Id, ChatRole.Assistant.Value,
+            evaluation.Text));
+        
         await dbContext.SaveChangesAsync(cancellationToken);
-        var aiTestResultDto = aiTestResult.Adapt<AiTestResultDto>();
-        return new StartAiTestResult(aiTestResultDto);
+        var aiTestSessionDto = aiTestSession.Adapt<AiTestSessionDto>();
+        return new StartAiTestResult(aiTestSessionDto);
     }
 }
