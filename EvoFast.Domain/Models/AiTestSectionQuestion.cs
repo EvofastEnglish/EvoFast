@@ -12,5 +12,4 @@ public class AiTestSectionQuestion : Entity<Guid>
     public string? Description { get; set; }
     public int ThinkingTimeSeconds { get; set; }
     public int RecordingTimeSeconds { get; set; }
-    public virtual ICollection<AiTestSectionQuestionResult> AiTestSectionQuestionResults { get; set; }
 }

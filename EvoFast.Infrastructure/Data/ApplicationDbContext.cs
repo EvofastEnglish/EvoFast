@@ -28,8 +28,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .HasQueryFilter(c => c.UserId == _currentUserId);
         builder.Entity<ReviewSession>()
             .HasQueryFilter(c => c.UserId == _currentUserId);
-        builder.Entity<AiTestResult>()
-            .HasQueryFilter(c => c.UserId == _currentUserId);
     }
     
     private Guid GetCurrentUserId(IHttpContextAccessor httpContextAccessor)
@@ -52,9 +50,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AiTest> AiTests => Set<AiTest>();
     public DbSet<AiTestSection> AiTestSections => Set<AiTestSection>();
     public DbSet<AiTestSectionQuestion> AiTestSectionQuestions => Set<AiTestSectionQuestion>();
-    public DbSet<AiTestResult> AiTestResults => Set<AiTestResult>();
-    public DbSet<AiTestSectionResult> AiTestSectionResults => Set<AiTestSectionResult>();
-    public DbSet<AiTestSectionQuestionResult> AiTestSectionQuestionResults => Set<AiTestSectionQuestionResult>();
     public DbSet<AiTestSession> AiTestSessions => Set<AiTestSession>();
     public DbSet<AiTestChatMessage> AiTestChatMessages => Set<AiTestChatMessage>();
 }
