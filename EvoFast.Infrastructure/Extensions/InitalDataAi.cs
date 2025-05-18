@@ -23,6 +23,7 @@ public class InitalDataAi
     public static IEnumerable<AiTestSection> AiTestSections => new List<AiTestSection>
     {
         #region Section 1
+
         new AiTestSection
         {
             Id = Guid.Parse("53e5b83d-b62e-4483-bbc4-2361cb9aa676"),
@@ -35,8 +36,11 @@ public class InitalDataAi
             ChatPrompt =
                 "Task Description:\r\n{{QUESTION}}\r\n\r\nInstructions:\r\nListen to the test taker’s spoken response and evaluate their English based on CEFR (A1 to C2).  \r\nDo not transcribe. Focus on pronunciation, fluency, grammar, and vocabulary.\r\n\r\nReturn:\r\n1. CEFR level (A1 to C2)  \r\n2. 5-level score (1 to 5)  \r\n3. Japanese feedback (1–2 sentences, polite and concise)"
         },
+
         #endregion
+
         #region Section 2
+
         new AiTestSection
         {
             Id = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
@@ -49,8 +53,11 @@ public class InitalDataAi
             ChatPrompt =
                 "Please disregard any previous audio files.  \r\nEvaluate only the audio file that will be provided immediately after this message.\r\n\r\nTask Description:\r\n{{QUESTION}}\r\n\r\nInstructions:\r\nListen to the test taker’s response and evaluate their English based on CEFR (A1 to C2).  \r\nDo not transcribe. Focus on grammar, vocabulary, and fluency.\r\n\r\nReturn:\r\n1. CEFR level (A1 to C2)  \r\n2. 5-level score (1 to 5)  \r\n3. Japanese feedback (1–2 sentences, polite and concise)"
         },
+
         #endregion
+
         #region Section 3
+
         new AiTestSection
         {
             Id = Guid.Parse("d3d2e7f1-c443-41f2-ae32-4e32d5fd4177"),
@@ -64,8 +71,11 @@ public class InitalDataAi
             ChatPrompt =
                 "Please disregard any previous audio files.  \r\nEvaluate only the audio file that will be provided immediately after this message.\r\n\r\nTask Description:\r\n{{QUESTION}}\r\n\r\nInstructions:\r\nListen to the test taker’s response and evaluate their English based on CEFR (A1 to C2).  \r\nDo not transcribe. Focus on grammar, vocabulary, and fluency.\r\n\r\nReturn:\r\n1. CEFR level (A1 to C2)  \r\n2. 5-level score (1 to 5)  \r\n3. Japanese feedback (1–2 sentences, polite and concise)"
         },
+
         #endregion
+
         #region Section 4
+
         new AiTestSection
         {
             Id = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
@@ -78,8 +88,11 @@ public class InitalDataAi
             ChatPrompt =
                 "Please disregard any previous audio files.  \r\nEvaluate only the audio file that will be provided immediately after this message.\r\n\r\nTask Description:\r\n{{QUESTION}}\r\n\r\nInstructions:\r\nListen to the test taker’s response and evaluate their English based on CEFR (A1 to C2).  \r\nDo not transcribe. Focus on grammar, vocabulary, and fluency.\r\n\r\nReturn:\r\n1. CEFR level (A1 to C2)  \r\n2. 5-level score (1 to 5)  \r\n3. Japanese feedback (1–2 sentences, polite and concise)"
         },
+
         #endregion
+
         #region Section 5
+
         new AiTestSection
         {
             Id = Guid.Parse("61ac3c86-e4e7-4c6c-a48e-57b7bc84bb9a"),
@@ -93,28 +106,34 @@ public class InitalDataAi
             ChatPrompt =
                 "Please disregard any previous audio files.  \r\nEvaluate only the audio file that will be provided immediately after this message.\r\n\r\nTask Description:\r\n{{QUESTION}}\r\nExplain the reason and suggest a new time politely.\r\n\r\nInstructions:\r\nListen to the test taker’s response to this simulated business situation and evaluate their English based on CEFR (A1 to C2).  \r\nDo not transcribe. Focus on tone, politeness, fluency, and vocabulary.\r\n\r\nReturn:\r\n1. CEFR level (A1 to C2)  \r\n2. 5-level score (1 to 5)  \r\n3. Japanese feedback (1–2 sentences, polite and concise)"
         }
+
         #endregion
     };
 
     public static IEnumerable<AiTestSectionQuestion> AiTestSectionQuestions => new List<AiTestSectionQuestion>
     {
         #region Section 1
+
         new AiTestSectionQuestion
         {
             Id = Guid.Parse("e84c4b27-f9a2-47b3-9318-3a16e5dcad9f"),
             AiTestSectionId = Guid.Parse("53e5b83d-b62e-4483-bbc4-2361cb9aa676"),
             Title = "Please introduce yourself and describe your current job.",
+            Description = "Please introduce yourself and describe your current job.",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
         },
+
         #endregion
 
         #region Section 2
+
         new AiTestSectionQuestion
         {
             Id = Guid.Parse("c8e1d3a0-7d56-4ea6-9ed2-2d0c6f10f916\n\n"),
             AiTestSectionId = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
             Title = "What do you usually do when you make a mistake at work?",
+            Description = "What do you usually do when you make a mistake at work?",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
         },
@@ -125,6 +144,7 @@ public class InitalDataAi
             AiTestSectionId = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
             Title =
                 "How do you handle tight deadlines at work?",
+            Description = "How do you handle tight deadlines at work?",
             ThinkingTimeSeconds = 30,
             RecordingTimeSeconds = 60,
         },
@@ -134,30 +154,39 @@ public class InitalDataAi
             Id = Guid.Parse("f23b87df-03a6-41a6-b8b7-d0161dc662df\n\n"),
             AiTestSectionId = Guid.Parse("fa798ec8-47cf-4e83-8429-8ec2fe0ad5ba"),
             Title = "What do you do when you have to work with someone difficult?",
+            Description = "What do you do when you have to work with someone difficult?",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
         },
+
         #endregion
-        
+
         #region Section 3
+
         new AiTestSectionQuestion
         {
             Id = Guid.Parse("1bca97a2-cc59-4aeb-b4a1-c2e3fceaf975"),
             AiTestSectionId = Guid.Parse("d3d2e7f1-c443-41f2-ae32-4e32d5fd4177"),
             Title =
                 "You need to cancel tomorrow’s 3 p.m. meeting with your manager.  \r\nExplain the reason and suggest a new time politely.",
+            Description =
+                "You need to cancel tomorrow’s 3 p.m. meeting with your manager.  \r\nExplain the reason and suggest a new time politely.",
             ThinkingTimeSeconds = 30,
             RecordingTimeSeconds = 60,
         },
+
         #endregion
-        
+
         #region Section 4
+
         new AiTestSectionQuestion
         {
             Id = Guid.Parse("9d47eaf2-3d21-4cf7-bc4f-87935e3d85cd"),
             AiTestSectionId = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
             Title =
                 "1(Description 2's recording will be submitted later) :\n\"I believe teamwork is one of the most important factors for success in any organization. When people collaborate, they bring different strengths, perspectives, and ideas to the table. This not only helps solve problems more effectively, but also builds trust and motivation within the team. In my experience, the best results come when we support each other and work toward a common goal.\"",
+            Description =
+                "I believe teamwork is one of the most important factors for success in any organization. When people collaborate, they bring different strengths, perspectives, and ideas to the table. This not only helps solve problems more effectively, but also builds trust and motivation within the team. In my experience, the best results come when we support each other and work toward a common goal.",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
         },
@@ -167,20 +196,26 @@ public class InitalDataAi
             AiTestSectionId = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
             Title =
                 "2 :\n\"In today’s fast-changing business environment, adaptability is essential. New technologies, market trends, and unexpected challenges can appear at any time. Being open to change and willing to learn new skills allows us to stay competitive and find creative solutions. I always try to stay flexible and positive, even when things don’t go as planned.\"",
+            Description =
+                "In today’s fast-changing business environment, adaptability is essential. New technologies, market trends, and unexpected challenges can appear at any time. Being open to change and willing to learn new skills allows us to stay competitive and find creative solutions. I always try to stay flexible and positive, even when things don’t go as planned.",
             ThinkingTimeSeconds = 0,
             RecordingTimeSeconds = 30,
         },
+
         #endregion
-        
+
         #region Section 5
+
         new AiTestSectionQuestion
         {
             Id = Guid.Parse("0a91e60b-5915-4b57-92cd-f329e3727891"),
             AiTestSectionId = Guid.Parse("61ac3c86-e4e7-4c6c-a48e-57b7bc84bb9a"),
             Title = "Do you prefer working remotely or in the office? Please explain your opinion.",
+            Description = "Do you prefer working remotely or in the office? Please explain your opinion.",
             ThinkingTimeSeconds = 30,
             RecordingTimeSeconds = 60,
         },
+
         #endregion
     };
 }
