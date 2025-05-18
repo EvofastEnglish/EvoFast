@@ -158,8 +158,8 @@ public class InitalDataAi
             AiTestSectionId = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
             Title =
                 "1(Description 2's recording will be submitted later) :\n\"I believe teamwork is one of the most important factors for success in any organization. When people collaborate, they bring different strengths, perspectives, and ideas to the table. This not only helps solve problems more effectively, but also builds trust and motivation within the team. In my experience, the best results come when we support each other and work toward a common goal.\"",
-            ThinkingTimeSeconds = 30,
-            RecordingTimeSeconds = 60,
+            ThinkingTimeSeconds = 0,
+            RecordingTimeSeconds = 30,
         },
         new AiTestSectionQuestion
         {
@@ -167,8 +167,8 @@ public class InitalDataAi
             AiTestSectionId = Guid.Parse("b9828262-9bb5-47d0-88c1-9c3b45f9dbb7"),
             Title =
                 "2 :\n\"In today’s fast-changing business environment, adaptability is essential. New technologies, market trends, and unexpected challenges can appear at any time. Being open to change and willing to learn new skills allows us to stay competitive and find creative solutions. I always try to stay flexible and positive, even when things don’t go as planned.\"",
-            ThinkingTimeSeconds = 30,
-            RecordingTimeSeconds = 60,
+            ThinkingTimeSeconds = 0,
+            RecordingTimeSeconds = 30,
         },
         #endregion
         
@@ -178,8 +178,8 @@ public class InitalDataAi
             Id = Guid.Parse("0a91e60b-5915-4b57-92cd-f329e3727891"),
             AiTestSectionId = Guid.Parse("61ac3c86-e4e7-4c6c-a48e-57b7bc84bb9a"),
             Title = "Do you prefer working remotely or in the office? Please explain your opinion.",
-            ThinkingTimeSeconds = 0,
-            RecordingTimeSeconds = 30,
+            ThinkingTimeSeconds = 30,
+            RecordingTimeSeconds = 60,
         },
         #endregion
     };
