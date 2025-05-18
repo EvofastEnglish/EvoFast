@@ -1,6 +1,7 @@
 using BuildingBlocks.Exceptions;
 using EvoFast.Application.Data;
 using EvoFast.Application.Dtos;
+using EvoFast.Application.Mapper;
 using EvoFast.Application.Services;
 using EvoFast.Domain.Models;
 using Mapster;
@@ -46,7 +47,7 @@ public class CompleteAiTestSectionQuestionHandler(
         
         var chatMessages = session.AiTestChatMessages
             .OrderBy(m => m.CreatedAt)
-            .Select(m => new ChatMessage(MapRole(m.Role), m.Content))
+            .Select(m => new ChatMessage(ChatRoleMapper.MapFromDbRole(m.Role), m.Content))
             .ToList();
 
         var questPrompt = section.ChatPrompt.Replace("{{QUESTION}}", question.Title);
@@ -72,16 +73,5 @@ public class CompleteAiTestSectionQuestionHandler(
         await dbContext.SaveChangesAsync(cancellationToken);
         var messageDtos = session.AiTestChatMessages.Adapt<List<AiTestChatMessageDto>>();
         return new CompleteAiTestSectionQuestionResult(messageDtos);      
-    }
-    
-    static ChatRole MapRole(string dbRole)
-    {
-        return dbRole?.ToLower() switch
-        {
-            "user" => ChatRole.User,
-            "assistant" => ChatRole.Assistant,
-            "system" => ChatRole.System,
-            _ => ChatRole.User
-        };
     }
 }
