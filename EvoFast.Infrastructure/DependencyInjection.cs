@@ -28,7 +28,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.AddHttpClient<IChatGptService, ChatGptService>();
         services.AddChatClient(_ =>
-            new OpenAI.Chat.ChatClient("gpt-4o", Environment.GetEnvironmentVariable("OPENAI_API_KEY"))
+            new OpenAI.Chat.ChatClient("gpt-4o-mini", Environment.GetEnvironmentVariable("OPENAI_API_KEY"))
                 .AsIChatClient());
         return services;
     }
