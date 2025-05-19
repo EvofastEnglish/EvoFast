@@ -145,8 +145,8 @@ public class InitalDataAi
             Title =
                 "How do you handle tight deadlines at work?",
             Description = "How do you handle tight deadlines at work?",
-            ThinkingTimeSeconds = 30,
-            RecordingTimeSeconds = 60,
+            ThinkingTimeSeconds = 0,
+            RecordingTimeSeconds = 30,
         },
 
         new AiTestSectionQuestion
