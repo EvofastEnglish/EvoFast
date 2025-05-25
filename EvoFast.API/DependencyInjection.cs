@@ -15,7 +15,7 @@ public static class DependencyInjection
         services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "https://evofast-identityserver.solocode.click";
+                options.Authority = "https://evofast-identityserver-dev.solocode.click";
                 options.Audience = "EvoFastAPI";
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -23,7 +23,7 @@ public static class DependencyInjection
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = "https://evofast-identityserver.solocode.click",
+                    ValidIssuer = "https://evofast-identityserver-dev.solocode.click",
                     ValidAudience = "EvoFastAPI"
                 };
             });
