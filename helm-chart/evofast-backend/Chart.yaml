@@ -1,0 +1,5 @@
+apiVersion: v2
+name: evofast-backend
+description: Evofast backend Helm chart
+version: 0.1.0
+appVersion: "1.0"

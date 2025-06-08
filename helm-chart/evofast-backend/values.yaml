@@ -1,0 +1,36 @@
+image:
+  repository: lieusolocode/evofast-backend-aks
+  tag: latest
+  pullPolicy: Always
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8002
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  host: evofastapi-dev.solocode.click
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "900m"
+  path: /
+  pathType: Prefix
+
+config:
+  AllowedHosts: "*"
+  AllowedOrigins: "http://localhost:3000;https://evofast.solocode.click;https://evofast-dev.solocode.click"
+  Logging__LogLevel__Default: "Information"
+  Logging__LogLevel__Microsoft.AspNetCore: "Warning"
+
+secrets:
+  ConnectionStrings__Database: ""
+  ConnectionStrings__DatabaseHangfire: ""
+  MessageBroker__Host: ""
+  MessageBroker__UserName: ""
+  MessageBroker__Password: ""
+  OpenAiSettings__ApiKey: ""
+  OpenAiSettings__Model: "gpt-4o-mini"

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: evofast-backend-config
+data:
+  AllowedHosts: {{ .Values.config.AllowedHosts | quote }}
+  AllowedOrigins: {{ .Values.config.AllowedOrigins | quote }}
+  Logging__LogLevel__Default: {{ .Values.config.Logging__LogLevel__Default | quote }}
+  Logging__LogLevel__Microsoft.AspNetCore: {{ .Values.config.Logging__LogLevel__MicrosoftAspNetCore | quote }}
