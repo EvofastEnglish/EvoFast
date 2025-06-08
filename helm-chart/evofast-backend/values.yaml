@@ -27,10 +27,10 @@ config:
   Logging__LogLevel__Microsoft.AspNetCore: "Warning"
 
 secrets:
-  ConnectionStrings__Database: ""
-  ConnectionStrings__DatabaseHangfire: ""
-  MessageBroker__Host: ""
-  MessageBroker__UserName: ""
-  MessageBroker__Password: ""
-  OpenAiSettings__ApiKey: ""
+  ConnectionStrings__Database: "Host=jastech-vn.postgres.database.azure.com; Database=Evofast; Username=lieudvq0302; Password=?s0D5Uip4DK{N9f6I:?g"
+  ConnectionStrings__DatabaseHangfire: "host=jastech-vn.postgres.database.azure.com;database=Evofast_Hangfire;pooling=true;username=lieudvq0302;password=?s0D5Uip4DK{N9f6I:?g"
+  MessageBroker__Host: "amqp://rabbitmq:5672"
+  MessageBroker__UserName: "evofast"
+  MessageBroker__Password: "password123@"
+  OpenAiSettings__ApiKey: "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"
   OpenAiSettings__Model: "gpt-4o-mini"
