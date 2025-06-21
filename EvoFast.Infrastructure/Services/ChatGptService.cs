@@ -3,7 +3,6 @@ using System.Text;
 using EvoFast.Application.Dtos;
 using EvoFast.Application.Services;
 using EvoFast.Infrastructure.Settings;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace EvoFast.Infrastructure.Services;
@@ -13,10 +12,10 @@ public class ChatGptService : IChatGptService
     private readonly HttpClient _httpClient;
     private readonly OpenAiSettings _settings;
     
-    public ChatGptService(HttpClient httpClient, IOptions<OpenAiSettings> options)
+    public ChatGptService(HttpClient httpClient, OpenAiSettings settings)
     {
         _httpClient = httpClient;
-        _settings = options.Value;
+        _settings = settings;
     }
     
     public async Task<(string role, string content)> GetChatGptResponseAsync(List<ChatGptMessageDto> messages)

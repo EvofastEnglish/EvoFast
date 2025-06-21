@@ -1,7 +1,6 @@
 using EvoFast.Application.Services;
 using EvoFast.Infrastructure.Settings;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using OpenAI.Audio;
 
 namespace EvoFast.Infrastructure.Services;
@@ -9,9 +8,9 @@ namespace EvoFast.Infrastructure.Services;
 public class WhisperService : IWhisperService
 {
     private readonly OpenAiSettings _settings;
-    public WhisperService(IOptions<OpenAiSettings> options)
+    public WhisperService(OpenAiSettings settings)
     {
-        _settings = options.Value;
+        _settings = settings;
     }
     public async Task<string> TranscribeAsync(IFormFile audioFile, string language)
     {
