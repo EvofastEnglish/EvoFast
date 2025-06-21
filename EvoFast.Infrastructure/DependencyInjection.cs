@@ -2,6 +2,7 @@ using EvoFast.Application.Data;
 using EvoFast.Application.Services;
 using EvoFast.Infrastructure.Interceptors;
 using EvoFast.Infrastructure.Services;
+using EvoFast.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,11 @@ public static class DependencyInjection
         (this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Database");
+        // Bind config section
+        var openAiSettings = new OpenAISettings();
+        configuration.GetSection("OpenAI").Bind(openAiSettings);
+        services.AddSingleton(openAiSettings);
+        
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
         services.AddScoped<IWhisperService, WhisperService>();
@@ -28,7 +34,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.AddHttpClient<IChatGptService, ChatGptService>();
         services.AddChatClient(_ =>
-            new OpenAI.Chat.ChatClient("gpt-4o-mini", Environment.GetEnvironmentVariable("OPENAI_API_KEY"))
+            new OpenAI.Chat.ChatClient(openAiSettings.Model, openAiSettings.ApiKey)
                 .AsIChatClient());
         return services;
     }

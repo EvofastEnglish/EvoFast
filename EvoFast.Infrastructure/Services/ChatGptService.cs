@@ -2,7 +2,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using EvoFast.Application.Dtos;
 using EvoFast.Application.Services;
-using Microsoft.Extensions.Configuration;
+using EvoFast.Infrastructure.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace EvoFast.Infrastructure.Services;
@@ -10,21 +11,19 @@ namespace EvoFast.Infrastructure.Services;
 public class ChatGptService : IChatGptService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _openAiApiKey;
-    private readonly string _openAiModel;
+    private readonly OpenAISettings _settings;
     
-    public ChatGptService(HttpClient httpClient, IConfiguration configuration)
+    public ChatGptService(HttpClient httpClient, IOptions<OpenAISettings> options)
     {
         _httpClient = httpClient;
-        _openAiApiKey = configuration["OpenAiSettings:ApiKey"];
-        _openAiModel = configuration["OpenAiSettings:Model"];
+        _settings = options.Value;
     }
     
     public async Task<(string role, string content)> GetChatGptResponseAsync(List<ChatGptMessageDto> messages)
     {
         var requestBody = new
         {
-            model = _openAiModel,
+            model = _settings.Model,
             messages = messages,
         };
 
@@ -34,12 +33,12 @@ public class ChatGptService : IChatGptService
             "application/json"
         );
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
+        var request = new HttpRequestMessage(HttpMethod.Post, _settings.ApiUrl)
         {
             Content = requestContent
         };
         
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _openAiApiKey);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _settings.ApiKey);
 
         var response = await _httpClient.SendAsync(request);
 
