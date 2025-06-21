@@ -32,7 +32,7 @@ public class InitalDataAi
             Title = "ウォームアップ",
             TotalQuestion = 1,
             EvaluationCriteria = "自己紹介・基本語彙",
-            Description = "まずはあなたの自己紹介（お名前、現在のお仕事など）について英語で自由に話して下さい。\n\n時間は30秒です。\n\nスタートボタンを押すと開始されます。\n",
+            Description = "まずはあなたの自己紹介（お名前、現在のお仕事など）について英語で自由に話して下さい。\n時間は30秒です。\nスタートボタンを押すと、5秒のカウントダウンがあり、その後開始されます。\n",
             ChatPrompt =
                 "Task Description:  \n{{QUESTION}}\n\nInstructions:  \nEvaluate the test taker’s English based on the transcribed text of their spoken response.  \nThe response has been transcribed from audio using an external service.  \nBase your evaluation on CEFR (A1 to C2), focusing on:  \n- Pronunciation (as inferred from the transcription)  \n- Fluency  \n- Grammar and sentence structure  \n- Vocabulary  \n\nDo NOT transcribe or analyze the audio directly.  \nUse only the transcription provided.\n\nReturn the result in this format:\n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         },
@@ -49,7 +49,7 @@ public class InitalDataAi
             Title = "一問一答",
             TotalQuestion = 3,
             EvaluationCriteria = "応答・語彙・自然さ",
-            Description = "3つの英語の質問に対し、英語で回答してださい。\n各質問に対して、1文〜2文程度で答えてください。\n\n回答時間は各質問につき30秒です。\n",
+            Description = "3つの英語の質問に対し、英語で回答してださい。\n各質問に対して、1文〜2文程度で答えてください。\n回答時間は各質問につき30秒です。\nスタートボタンを押すと、5秒のカウントダウンがあり、その後開始されます。\n",
             ChatPrompt =
                 "Task Description:  \n{{QUESTION}}\n\nInstructions:  \nEvaluate the test taker’s English based on the **transcribed text** of their spoken response.  \nThe response has been transcribed from an audio recording using an external service.  \nAssess the response according to CEFR (A1 to C2), focusing on:  \n- Grammar and sentence structure  \n- Vocabulary  \n- Fluency  \n- (Pronunciation may be inferred from the transcription)\n\nDo NOT refer to or transcribe any audio.  \nUse only the transcription provided.\n\nReturn the result in this format:  \n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         },
@@ -84,7 +84,7 @@ public class InitalDataAi
             Title = "音読",
             TotalQuestion = 2,
             EvaluationCriteria = "発音・イントネーション",
-            Description = "表示される英文を声に出して読み上げてください。\n正しい発音、リズム、イントネーションを意識してください。\n\n出題は2問です。\n",
+            Description = "表示される英文を声に出して読み上げてください。\n正しい発音、リズム、イントネーションを意識してください。\n出題は2問です。\nスタートボタンを押すと、5秒のカウントダウンがあり、その後開始されます。\n",
             ChatPrompt =
                 "Task Description:  \nThe test taker was asked to read the following sentence aloud (Reading aloud task 1 of 2):\n{{QUESTION}}\nInstructions:  \nEvaluate the test taker’s English based on the **transcribed text** of their spoken reading.  \nThe response has been transcribed from an audio recording using an external service.  \nAssess the response according to CEFR (A1 to C2), focusing on:  \n- Pronunciation (as inferred from the transcription)  \n- Fluency and pacing  \n- Accuracy of word delivery  \n- Naturalness of phrasing and intonation (if detectable from the text)\n\nDo NOT refer to or transcribe any audio.  \nUse only the transcription provided.\n\nReturn the result in this format:  \n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         },
