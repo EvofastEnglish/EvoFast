@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using BuildingBlocks.Pagination;
 using EvoFast.Application.ReviewSessions.Commands.CreateReviewSession;
+using EvoFast.Application.ReviewSessions.Commands.DeleteRevewSession;
 using EvoFast.Application.ReviewSessions.Commands.UpdateConfidenceReviewSession;
 using EvoFast.Application.ReviewSessions.Commands.UpsertReviewSession;
 using EvoFast.Application.ReviewSessions.Queries.GetReviewSessions;
@@ -62,6 +63,15 @@ public class ReviewSessionsController(ISender sender) : ControllerBase
     public async Task<ActionResult> GetReviewSessions([FromQuery] PaginationRequest paginationRequest)
     {
         var command = new GetReviewSessionsQuery(paginationRequest);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{Id}")]
+    [EndpointSummary("Delete Review Session")]
+    public async Task<ActionResult> DeleteAnswer(Guid id)
+    {
+        var command = new DeleteReviewSessionCommand(id);
         var result = await sender.Send(command);
         return Ok(result);
     }
