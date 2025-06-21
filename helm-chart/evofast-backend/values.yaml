@@ -35,3 +35,4 @@ secrets:
   OpenAiSettings__ApiKey: "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"
   OpenAiSettings__Model: "gpt-4o-mini"
   OpenAiSettings__ApiUrl: "https://api.openai.com/v1/chat/completions"
+  OpenAiSettings__WhisperModel: "whisper-1"
