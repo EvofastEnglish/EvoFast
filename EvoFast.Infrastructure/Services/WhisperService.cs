@@ -8,8 +8,8 @@ namespace EvoFast.Infrastructure.Services;
 
 public class WhisperService : IWhisperService
 {
-    private readonly OpenAISettings _settings;
-    public WhisperService(IOptions<OpenAISettings> options)
+    private readonly OpenAiSettings _settings;
+    public WhisperService(IOptions<OpenAiSettings> options)
     {
         _settings = options.Value;
     }

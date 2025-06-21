@@ -11,9 +11,9 @@ namespace EvoFast.Infrastructure.Services;
 public class ChatGptService : IChatGptService
 {
     private readonly HttpClient _httpClient;
-    private readonly OpenAISettings _settings;
+    private readonly OpenAiSettings _settings;
     
-    public ChatGptService(HttpClient httpClient, IOptions<OpenAISettings> options)
+    public ChatGptService(HttpClient httpClient, IOptions<OpenAiSettings> options)
     {
         _httpClient = httpClient;
         _settings = options.Value;

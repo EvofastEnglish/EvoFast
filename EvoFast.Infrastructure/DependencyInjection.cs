@@ -18,8 +18,8 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("Database");
         // Bind config section
-        var openAiSettings = new OpenAISettings();
-        configuration.GetSection("OpenAI").Bind(openAiSettings);
+        var openAiSettings = new OpenAiSettings();
+        configuration.GetSection(nameof(OpenAiSettings)).Bind(openAiSettings);
         services.AddSingleton(openAiSettings);
         
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
