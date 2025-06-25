@@ -32,7 +32,7 @@ public class InitalDataAi
             Title = "ウォームアップ",
             TotalQuestion = 1,
             EvaluationCriteria = "自己紹介・基本語彙",
-            Description = "まずはあなたの自己紹介（お名前、現在のお仕事など）について英語で自由に話して下さい。\n時間は30秒です。\nスタートボタンを押すと、5秒のカウントダウンがあり、その後開始されます。\n",
+            Description = "まずはあなたの自己紹介（お名前、現在のお仕事など）について\n英語で自由に話して下さい。時間は30秒です。\nスタートボタンを押すと、5秒のカウントダウンがあり、その後開始されます。\n",
             ChatPrompt =
                 "Task Description:  \n{{QUESTION}}\n\nInstructions:  \nEvaluate the test taker’s English based on the transcribed text of their spoken response.  \nThe response has been transcribed from audio using an external service.  \nBase your evaluation on CEFR (A1 to C2), focusing on:  \n- Pronunciation (as inferred from the transcription)  \n- Fluency  \n- Grammar and sentence structure  \n- Vocabulary  \n\nDo NOT transcribe or analyze the audio directly.  \nUse only the transcription provided.\n\nReturn the result in this format:\n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         },
@@ -67,7 +67,7 @@ public class InitalDataAi
             TotalQuestion = 1,
             EvaluationCriteria = "対話力・表現・丁寧さ",
             Description =
-                "ビジネスの場面での会話のロールプレイをします。\n相手の立場（上司・顧客など）やシチュエーションが指定されますので、その相手に話すように自然に発話して下さい。\n\n発話時間は60秒です。\n\n最初に考える時間が30秒与えられます。\n",
+                "ビジネスの場面での会話のロールプレイをします。\n相手の立場（上司・顧客など）やシチュエーションが指定されますので、\nその相手に話すように自然に発話して下さい。\n発話時間は60秒です。\n最初に考える時間が30秒与えられます。\n",
             ChatPrompt =
                 "Task Description:  \n{{QUESTION}}\n\nInstructions:  \nEvaluate the test taker’s English based on the **transcribed text** of their spoken response.  \nThe response has been transcribed from an audio recording using an external service.  \nAssess the response according to CEFR (A1 to C2), focusing on:  \n- Politeness and tone  \n- Vocabulary  \n- Grammar and sentence structure  \n- Fluency  \n- Task completion (Was the situation addressed appropriately with a reason and a proposed alternative?)\n\nDo NOT refer to or transcribe any audio.  \nUse only the transcription provided.\n\nReturn the result in this format:  \n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         },
@@ -102,7 +102,7 @@ public class InitalDataAi
             TotalQuestion = 1,
             EvaluationCriteria = "構成力・論理性・語彙",
             Description =
-                "指定されたテーマについて、あなたの考えや意見を自由に英語で話してください。理由や具体例を含めると、伝わりやすくなります。\n\n発話時間は60秒です。制限時間内で精一杯伝えることを心掛けて下さい。\n\n最初に考える時間が30秒与えられます。\n",
+                "指定されたテーマについて、あなたの考えや意見を自由に英語で話してください。理由や具体例を含めると、伝わりやすくなります。\n発話時間は60秒です。制限時間内で精一杯伝えることを心掛けて下さい。\n最初に考える時間が30秒与えられます。\n",
             ChatPrompt =
                 "Task Description:  \n{{QUESTION}}\n\nInstructions:  \nEvaluate the test taker’s English based on the **transcribed text** of their spoken response.  \nThe response has been transcribed from an audio recording using an external service.  \nAssess the response according to CEFR (A1 to C2), focusing on:  \n- Fluency  \n- Vocabulary  \n- Grammar and sentence structure  \n- Logical organization of opinion  \n- (Politeness or tone, if relevant)\n\nDo NOT refer to or transcribe any audio.  \nUse only the transcription provided.\n\nReturn the result in this format:  \n1. Score (out of 120): [0–120]  \n2. CEFR Level: [A1–C2]  \n3. Japanese Feedback: [1–2 sentences, concise and polite]\n"
         }
