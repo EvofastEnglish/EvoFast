@@ -13,7 +13,7 @@ public class CreateQuestionActionLogHandler(IApplicationDbContext dbContext)
             QuestionId = request.Request.QuestionId,
             UserId = request.UserId,
             IsCorrect = request.Request.IsCorrect,
-            CreatedAt = DateTime.Now
+            CreatedAt = DateTime.UtcNow
         };
         dbContext.QuestionActionLogs.Add(questionActionLogs);
         await dbContext.SaveChangesAsync(cancellationToken);
