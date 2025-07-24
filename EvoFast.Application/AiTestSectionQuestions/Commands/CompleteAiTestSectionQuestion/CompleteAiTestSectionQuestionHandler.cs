@@ -66,7 +66,7 @@ public class CompleteAiTestSectionQuestionHandler(
         chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
         var evaluationAudio = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
-            evaluationAudio.Text));
+            evaluationAudio.Text,  transcribeAudio));
         
         #endregion
 
