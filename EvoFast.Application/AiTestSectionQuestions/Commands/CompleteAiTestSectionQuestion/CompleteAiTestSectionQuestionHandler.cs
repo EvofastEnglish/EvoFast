@@ -7,6 +7,7 @@ using EvoFast.Domain.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
+using System.Text.Json;
 
 namespace EvoFast.Application.AiTestSectionQuestions.Commands.CompleteAiTestSectionQuestion;
 
@@ -55,18 +56,21 @@ public class CompleteAiTestSectionQuestionHandler(
         
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,
             questPrompt));
+        
         var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
-
+        var evaluationString = JsonSerializer.Serialize(evaluation);
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
-            evaluation.Text));
+            evaluation.Text, null, evaluationString));
 
         #region Audio
         
         var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
         chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
+        
         var evaluationAudio = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
+        var evaluationAudioString = JsonSerializer.Serialize(evaluationAudio);
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
-            evaluationAudio.Text,  transcribeAudio));
+            evaluationAudio.Text,  transcribeAudio, evaluationAudioString));
         
         #endregion
 

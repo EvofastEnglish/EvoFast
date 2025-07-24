@@ -6,6 +6,7 @@ using EvoFast.Domain.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
+using System.Text.Json;
 
 namespace EvoFast.Application.AiTests.Commands.CompleteAiTest;
 
@@ -37,9 +38,9 @@ public class CompleteAiTestHandler(
         var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
         
         session.Complete(evaluation.Text);
-
+        var responseString = JsonSerializer.Serialize(evaluation);
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.Assistant.Value,
-            evaluation.Text));
+            evaluation.Text, null, responseString));
 
         await dbContext.SaveChangesAsync(cancellationToken);
         var sessionDto = session.Adapt<AiTestSessionDto>();

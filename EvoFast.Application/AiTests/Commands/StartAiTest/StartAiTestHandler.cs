@@ -4,6 +4,7 @@ using EvoFast.Application.Dtos;
 using EvoFast.Domain.Models;
 using Mapster;
 using Microsoft.Extensions.AI;
+using System.Text.Json;
 
 namespace EvoFast.Application.AiTests.Commands.StartAiTest;
 
@@ -31,9 +32,9 @@ public class StartAiTestHandler(
         [
             new ChatMessage(ChatRole.System, aiTest.ChatPromptStart),
         ], cancellationToken: cancellationToken);
-        
+        var responseString = JsonSerializer.Serialize(evaluation);
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(aiTestSession.Id, ChatRole.Assistant.Value,
-            evaluation.Text));
+            evaluation.Text, null, responseString));
         
         await dbContext.SaveChangesAsync(cancellationToken);
         var aiTestSessionDto = aiTestSession.Adapt<AiTestSessionDto>();
