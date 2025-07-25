@@ -53,7 +53,6 @@ public class CompleteAiTestSectionQuestionHandler(
 
         var questPrompt = section.ChatPrompt.Replace("{{QUESTION}}", question.Title);
         chatMessages.Add(new ChatMessage(ChatRole.User, questPrompt));
-        
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,
             questPrompt));
         
@@ -66,6 +65,8 @@ public class CompleteAiTestSectionQuestionHandler(
         
         var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
         chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,
+            transcribeAudio));
         
         var evaluationAudio = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
         var evaluationAudioString = JsonSerializer.Serialize(evaluationAudio);
