@@ -61,13 +61,13 @@ public class ReviewSession : Entity<Guid>
         ReviewStage += 1;
         if (ReviewStage == 1)
         {
-            NextReviewDate = NextReviewDate.AddDays(3);
+            NextReviewDate = DateTime.UtcNow.AddDays(3);
         }else if (ReviewStage == 2)
         {
-            NextReviewDate = NextReviewDate.AddDays(4);
+            NextReviewDate = DateTime.UtcNow.AddDays(4);
         }else if (ReviewStage == 3)
         {
-            NextReviewDate = NextReviewDate.AddDays(23);
+            NextReviewDate = DateTime.UtcNow.AddDays(23);
         }else if (ReviewStage >= 4)
         {
             IsDeleted = true;
