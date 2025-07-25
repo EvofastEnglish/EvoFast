@@ -66,7 +66,7 @@ public class CompleteAiTestSectionQuestionHandler(
         var transcribeAudio = await whisperService.TranscribeAsync(command.CompleteAiTestSectionQuestionRequest.AudioFile, command.CompleteAiTestSectionQuestionRequest.Language);
         chatMessages.Add(new ChatMessage(ChatRole.User, transcribeAudio));
         dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,
-            transcribeAudio));
+            transcribeAudio,  transcribeAudio));
         
         var evaluationAudio = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
         var evaluationAudioString = JsonSerializer.Serialize(evaluationAudio);
