@@ -1,5 +1,6 @@
 using BuildingBlocks.Pagination;
 using EvoFast.Application.Messages.Commands.CreateMessage;
+using EvoFast.Application.Messages.Commands.DeleteMessages;
 using EvoFast.Application.Messages.Queries.GetMessages;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,15 @@ public class MessagesController(ISender sender) : ControllerBase
     public async Task<ActionResult> CreateMessage([FromBody] CreateMessageRequest model)
     {
         var command = new CreateMessageCommand(model);
+        var result = await sender.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{conversationId}")]
+    [EndpointSummary("Delete Messages By ConversationId")]
+    public async Task<ActionResult> DeleteMessages(Guid conversationId)
+    {
+        var command = new DeleteMessagesCommand(conversationId);
         var result = await sender.Send(command);
         return Ok(result);
     }
