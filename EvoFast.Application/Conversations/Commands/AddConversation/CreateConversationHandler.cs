@@ -18,16 +18,18 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
         dbContext.Conversations.Add(conversation);
 
         var chatGptMessageDtos = new List<ChatGptMessageDto>();
-        
-        string languageInstruction = "";
-        if (conversation.Language != "en" && _languageNames.TryGetValue(conversation.Language, out var languageName))
+        string conversationLanguage = conversation.Language switch
         {
-            languageInstruction = $"Please respond in {languageName} language only. ";
-        }
+            "ja" => "Japanese",
+            "en" => "English",
+            _ => "English"
+        };
+        var languageInstruction = $"Please respond in {conversationLanguage} only. ";
         var prompt = $"You are an AI assistant. The user's role is {conversation.YourRole}. " +
                      $"The AI's role is {conversation.AIRole}. " +
                      $"The topic of the conversation is {conversation.Topic}. " +
-                     $"{languageInstruction} " +
+                     $"{languageInstruction}" +
+                     "The user is learning this language, so adapt your responses accordingly (e.g., vocabulary level, clarity). " +
                      "The conversation should be dynamic, with short, clear responses that promote dialogue. " +
                      "Your responses should be concise, and when appropriate, ask follow-up questions to keep the conversation flowing. " +
                      "Maintain an engaging and natural back-and-forth between the user and the AI.";
