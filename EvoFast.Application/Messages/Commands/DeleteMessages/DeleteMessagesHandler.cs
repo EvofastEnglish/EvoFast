@@ -9,10 +9,17 @@ public class DeleteMessagesHandler(IApplicationDbContext dbContext, IChatGptServ
 {
     public async Task<DeleteMessagesResult> Handle(DeleteMessagesCommand command, CancellationToken cancellationToken)
     {
-        var messagesToDelete = await dbContext.Messages
+        var messages = await dbContext.Messages
             .Where(m => m.ConversationId == command.ConversationId)
+            .OrderBy(m => m.CreatedAt)
             .ToListAsync(cancellationToken);
 
+        if (messages.Count <= 1)
+        {
+            return new DeleteMessagesResult(true);
+        }
+        
+        var messagesToDelete = messages.Skip(1);
         dbContext.Messages.RemoveRange(messagesToDelete);
 
         await dbContext.SaveChangesAsync(cancellationToken);
