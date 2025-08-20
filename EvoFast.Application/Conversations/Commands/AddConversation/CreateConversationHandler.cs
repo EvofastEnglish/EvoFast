@@ -3,6 +3,7 @@ using EvoFast.Application.Dtos;
 using EvoFast.Application.Services;
 using EvoFast.Domain.Models;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace EvoFast.Application.Conversations.Commands.AddConversation;
@@ -15,6 +16,21 @@ public class CreateConversationHandler(IApplicationDbContext dbContext, IChatGpt
     {
         var conversation = command.Conversation.Adapt<Conversation>();
         conversation.CreatedAt = DateTime.UtcNow;
+        
+        var userConversations = dbContext.Conversations
+            .OrderBy(c => c.CreatedAt);
+
+        var count = await userConversations.CountAsync(cancellationToken);
+        if (count >= 20)
+        {
+            var oldest = await userConversations.FirstOrDefaultAsync(cancellationToken);
+            if (oldest != null)
+            {
+                dbContext.Conversations.Remove(oldest);
+                var oldMessages = dbContext.Messages.Where(m => m.ConversationId == oldest.Id);
+                dbContext.Messages.RemoveRange(oldMessages);
+            }
+        }
         dbContext.Conversations.Add(conversation);
 
         var chatGptMessageDtos = new List<ChatGptMessageDto>();
