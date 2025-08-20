@@ -21,7 +21,7 @@ public class GetReviewSessionsHandler(IApplicationDbContext dbContext)
         var reviewSessions = await baseQuery
             .Include(q => q.Question)
             .ThenInclude(q => q.Answers)
-            .OrderByDescending(q => q.NextReviewDate)
+            .OrderBy(q => q.NextReviewDate)
             .ThenByDescending(q => q.MistakeDate)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
