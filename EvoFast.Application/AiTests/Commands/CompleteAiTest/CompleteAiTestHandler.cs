@@ -35,6 +35,7 @@ public class CompleteAiTestHandler(
             .ToList();
         
         chatMessages.Add(new ChatMessage(ChatRole.User, session.AiTest.ChatPromptFinish));
+        dbContext.AiTestChatMessages.Add(new AiTestChatMessage(session.Id, ChatRole.User.Value,  session.AiTest.ChatPromptFinish));
         var evaluation = await client.GetResponseAsync(chatMessages, cancellationToken: cancellationToken);
         
         session.Complete(evaluation.Text);
