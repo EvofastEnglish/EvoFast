@@ -15,7 +15,7 @@ public class GetConversationsHandler(IApplicationDbContext dbContext)
         var pageSize = query.PaginationRequest.PageSize;
         var totalCount = await dbContext.Conversations.LongCountAsync(cancellationToken);
         var conversations = dbContext.Conversations
-            .OrderBy(x => x.CreatedAt)
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize);
         var conversationsDto = conversations.Adapt<List<ConversationDto>>();
