@@ -17,7 +17,7 @@ public class ReviewSession : Entity<Guid>
     public DateTime MistakeDate { get; private set; }
     public DateTime NextReviewDate { get; private set; }
     public int ReviewStage { get; private set; }
-    public bool IsConfidence { get; private set; }
+    public bool? IsConfidence { get; private set; }
     public bool IsDeleted { get; private set; }
     
     public ReviewSession(Guid userId, Guid questionId, bool isCorrect)
@@ -26,7 +26,7 @@ public class ReviewSession : Entity<Guid>
         QuestionId = questionId;
         IsCorrect = isCorrect;
         IsDeleted = false;
-        IsConfidence = false;
+        IsConfidence = null;
         if (!IsCorrect)
         {
             ReviewStage = 0;
@@ -45,7 +45,7 @@ public class ReviewSession : Entity<Guid>
     {
         IsConfidence = isConfidence;
 
-        if (IsConfidence)
+        if (IsConfidence == true)
         {
             NextReviewDate = MistakeDate.AddDays(30);
         }
