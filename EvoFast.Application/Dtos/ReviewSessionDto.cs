@@ -5,6 +5,6 @@ public record ReviewSessionDto(
     DateTime MistakeDate,
     DateTime NextReviewDate,
     int ReviewStage,
-    bool IsConfidence,
+    bool? IsConfidence,
     QuestionDto? Question
     );
