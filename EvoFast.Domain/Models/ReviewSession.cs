@@ -47,6 +47,7 @@ public class ReviewSession : Entity<Guid>
 
         if (IsConfidence == true)
         {
+            ReviewStage = 3;
             NextReviewDate = MistakeDate.AddDays(30);
         }
         else
