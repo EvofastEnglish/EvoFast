@@ -12,7 +12,7 @@ namespace EvoFast.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize("ClientIdPolicy")]
+// [Authorize("ClientIdPolicy")]
 public class AiTestsController(ISender sender) : ControllerBase
 {
     [HttpGet]
