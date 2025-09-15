@@ -3,7 +3,7 @@ name: Build-Push Docker image
 on:
   push:
     branches:
-      - "develop-aks-keycloak"
+      - "develop-k3s-keycloak"
 
 jobs:
   docker:
