@@ -1,7 +1,6 @@
 using BuildingBlocks.Pagination;
 using EvoFast.Application.Conversations.Commands.AddConversation;
 using EvoFast.Application.Conversations.Queries.GetConversations;
-using EvoFast.Application.Questions.Queries.GetQuestionsByWordSet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ namespace EvoFast.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize("ClientIdPolicy")]
+[Authorize]
 public class ConversationsController(ISender sender) : ControllerBase
 {
     [HttpGet]

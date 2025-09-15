@@ -3,7 +3,7 @@ name: Build-Push Docker Image
 on:
   push:
     branches:
-      - "develop-aks"
+      - "develop-aks-keycloak"
 
 jobs:
   docker:
@@ -38,7 +38,7 @@ jobs:
         with:
           repository: EvofastEnglish/evofast-backend-chart
           token: ${{ secrets.GH_TOKEN }}
-          ref: develop-k3s
+          ref: develop-k3s-keycloak
           path: evofast-backend-chart
 
       - name: Install yq
@@ -55,4 +55,4 @@ jobs:
           git config user.name "CI Bot"
 
           git commit -am "chore: update image tag to ${{ env.IMAGE_TAG }}"
-          git push origin develop-k3s
+          git push origin develop-k3s-keycloak

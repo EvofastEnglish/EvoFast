@@ -15,23 +15,16 @@ public static class DependencyInjection
         services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "https://evofast-identityserver-dev.solocode.click";
-                options.Audience = "EvoFastAPI";
+                options.Authority = "https://meidox-identityserver.solocode.click/realms/api-gateway";
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = "https://evofast-identityserver-dev.solocode.click",
-                    ValidAudience = "EvoFastAPI"
+                    ValidateIssuerSigningKey = true,
+                    ValidAudiences = ["account"],
+                    ValidIssuers = ["https://meidox-identityserver.solocode.click/realms/api-gateway"],
+                    ClockSkew = TimeSpan.Zero
                 };
             });
-            
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "m2m.client"));
-        });
         return services;
     }
     
