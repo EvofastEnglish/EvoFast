@@ -14,7 +14,7 @@ namespace EvoFast.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize("ClientIdPolicy")]
+// [Authorize("ClientIdPolicy")]
 public class WordSetsController(ISender sender) : ControllerBase
 {
     [HttpPost]
