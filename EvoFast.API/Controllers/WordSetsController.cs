@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BuildingBlocks.Pagination;
 using EvoFast.Application.WordSets.Commands.CreateWordSet;
 using EvoFast.Application.WordSets.Commands.DeleteWordSet;
@@ -40,7 +41,8 @@ public class WordSetsController(ISender sender) : ControllerBase
     [EndpointSummary("Get WordSets w/ Pagination")]
     public async Task<ActionResult> GetWordSets([FromQuery] PaginationRequest paginationRequest)
     {
-        var command = new GetWordSetsQuery(paginationRequest);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var command = new GetWordSetsQuery(paginationRequest, Guid.Parse(userId));
         var result = await sender.Send(command);
         return Ok(result);
     }

@@ -11,14 +11,37 @@ public class GetWordSetsHandler(IApplicationDbContext dbContext)
 {
     public async Task<GetWordSetsResult> Handle(GetWordSetsQuery request, CancellationToken cancellationToken)
     {
+        var user = await dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        
         var pageIndex = request.PaginationRequest.PageIndex;
         var pageSize = request.PaginationRequest.PageSize;
+        
+        var query = dbContext.WordSets.AsQueryable();
+
+        if (user != null)
+        {
+            if (!string.IsNullOrEmpty(user.Industry))
+            {
+                query = query.Where(ws => ws.Industry == user.Industry);
+            }
+
+            if (!string.IsNullOrEmpty(user.JobRole))
+            {
+                query = query.Where(ws => ws.JobRole == user.JobRole);
+            }
+        }
+        
         var totalCount = await dbContext.WordSets.LongCountAsync(cancellationToken);
-        var wordSets = dbContext.WordSets
+        
+        var wordSets = await query
             .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize);
-        var wordSetsDto = wordSets.Adapt<List<WordSetDto>>();
+            .Take(pageSize)
+            .ProjectToType<WordSetDto>()
+            .ToListAsync(cancellationToken);
+        
         return new GetWordSetsResult(
-            new PaginatedResult<WordSetDto>(pageIndex, pageSize, totalCount, wordSetsDto));
+            new PaginatedResult<WordSetDto>(pageIndex, pageSize, totalCount, wordSets));
     }
 }
