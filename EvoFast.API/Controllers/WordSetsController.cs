@@ -78,7 +78,8 @@ public class WordSetsController(ISender sender) : ControllerBase
     [EndpointSummary("Get Recommended WordSet")]
     public async Task<ActionResult> GetRecommendedWordSet()
     {
-        var command = new GetRecommendedWordSetQuery();
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var command = new GetRecommendedWordSetQuery(Guid.Parse(userId));
         var result = await sender.Send(command);
         return Ok(result);
     }

@@ -33,7 +33,7 @@ public class GetWordSetsHandler(IApplicationDbContext dbContext)
             }
         }
         
-        var totalCount = await dbContext.WordSets.LongCountAsync(cancellationToken);
+        var totalCount = await query.LongCountAsync(cancellationToken);
         
         var wordSets = await query
             .Skip((pageIndex - 1) * pageSize)
