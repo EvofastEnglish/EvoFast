@@ -38,6 +38,7 @@ public class GetWordSetsHandler(IApplicationDbContext dbContext)
         var wordSets = await query
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
+            .OrderBy(ws => ws.NumberId)
             .ProjectToType<WordSetDto>()
             .ToListAsync(cancellationToken);
         
