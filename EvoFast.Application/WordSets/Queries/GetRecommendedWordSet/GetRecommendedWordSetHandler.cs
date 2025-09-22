@@ -40,13 +40,13 @@ public class GetRecommendedWordSetHandler(IApplicationDbContext dbContext)
 
         if (lastAttempt == null)
         {
-            recommendedSet = dbContext.WordSets
+            recommendedSet = query
                 .OrderBy(w => w.NumberId)
                 .FirstOrDefault();
         }
         else
         {
-            recommendedSet = dbContext.WordSets
+            recommendedSet = query
                 .Where(w => w.NumberId > lastAttempt.WordSet.NumberId)
                 .OrderBy(w => w.NumberId)
                 .FirstOrDefault();
