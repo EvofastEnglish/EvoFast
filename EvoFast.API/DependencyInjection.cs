@@ -1,6 +1,7 @@
 using BuildingBlocks.Exceptions.Handler;
 using FluentValidation;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,6 +26,24 @@ public static class DependencyInjection
                     ValidateLifetime = true,
                     ValidIssuer = configuration["Auth:Issuer"],
                     ValidAudience = "EvoFastAPI"
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"JWT Authentication failed: {context.Exception.Message}");
+                        return Task.CompletedTask;
+                    },
+                    OnChallenge = context =>
+                    {
+                        Console.WriteLine($"JWT Challenge: {context.Error}, {context.ErrorDescription}");
+                        return Task.CompletedTask;
+                    },
+                    OnForbidden = context =>
+                    {
+                        Console.WriteLine($"Forbidden: {context.Result}");
+                        return Task.CompletedTask;
+                    }
                 };
             });
             
