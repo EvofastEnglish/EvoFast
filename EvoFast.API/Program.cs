@@ -23,7 +23,7 @@ app.UseApiServices();
     await app.InitialiseDatabaseAsync();
     app.MapScalarApiReference(options =>
     {
-        options.Title = "EvoFast API 0.0.1";
+        options.Title = "EvoFast API 0.0.2";
         options.ShowSidebar = true;
         options
             .WithPreferredScheme("Bearer")
